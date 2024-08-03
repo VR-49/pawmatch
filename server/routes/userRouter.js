@@ -4,6 +4,8 @@ const express = require('express');
 
 const User = require('../models/models.js');
 const userController = require('../controllers/userController.js');
+const shelterController = require('../controllers/shelterController.js');
+const humanController = require('../controllers/humanController.js');
 
 const router = express.Router();
 
@@ -15,20 +17,26 @@ router.get('/', (req, res) => {
 //generic login on landing page
 router.post('/signup', 
     userController.signup,
-    // (req, res, next) => {
-    //   if (res.locals.isOrg) {userController.createShelter;}    
-    //   else {userController.createHuman;}
-    //   return next()
-    // },
     (req, res) => {
-      return res.status(200).json(res.locals);
+      return res.status(200).json(res.locals.body);
+      //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
   });
 
 router.post('/login', 
   userController.login, 
+  async (req, res, next) => {
+    // console.log('in org is true', res.locals.isOrg);
+    if (res.locals.isOrg) { return shelterController.login(req, res, next); }
+    else { return humanController.login(req, res, next); }
+  },
   (req, res) => {
-    return res.status(200).json(res.locals);
-});
+    // console.log('done with login');
+    // console.log('sent body', res.locals.user);
+    return res.json(res.locals.user);
+    // return res.status(200).json(res.locals);
+  }
+  
+);
 
 
 module.exports = router;

@@ -18,6 +18,7 @@ const accountSchema = new Schema ({
 })
 
 const humanSchema = new Schema({
+  username: String,
   location: String,
   firstName: String,
   lastName: String,
@@ -27,6 +28,7 @@ const humanSchema = new Schema({
 });
 
 const shelterSchema = new Schema({
+  username: String,
   location: String,
   orgName: String,
   bio: String,

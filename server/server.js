@@ -16,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/auth', userRouter);
+app.use('/human', humanRouter);
+app.use('/shelter', shelterRouter);
 
 /**
  * 404 handler
