@@ -6,14 +6,15 @@ const app = express();
 
 const PORT = 3000;
 
+const userRouter = require('./routes/userRouter.js');
+
+
 // app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-// mongoose.coonect('' , {
-//     useNewUrlParse: true,
-//     useUnifiedTopology: true;
-// }).then(() =>
+
+app.use('/api/auth', userRouter);
 
 /**
  * 404 handler
