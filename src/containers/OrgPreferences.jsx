@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OrgPreferences = () => {
+const OrgPreferences = (props) => {
 
 	return (
   <div>

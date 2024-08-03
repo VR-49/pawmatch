@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LoginContainer from './containers/login';
-import createAccount from './containers/createAccount';
+import CreateAccount from './containers/createAccount';
+import ShelterContainer from './containers/ShelterContainer';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom"
 
@@ -19,7 +20,8 @@ const App = () => {
     <NavBar />
     <Routes>
       <Route path="/login" element={<LoginContainer />} />
-      <Route path="/signup" element={<createAccount />} />
+      <Route path="/signup" element={<CreateAccount />} />
+      <Route path="/shelters" element={<ShelterContainer />} />
     </Routes>
     </>
     // <section>

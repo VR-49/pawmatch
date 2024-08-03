@@ -1,6 +1,7 @@
 const express = require('express');
 // const bcrypt = require('bcryptjs');
 // const jwt = require('jsonwebtoken');
+const path = require('path');
 
 const User = require('../models/models.js');
 const userController = require('../controllers/userController.js');
@@ -11,7 +12,7 @@ const router = express.Router();
 
 // const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecretkey';
 router.get('/', (req, res) => {
-    console.log('in router')
+    res.status(200).sendFile(path.resolve(__dirname,'../../src/index.html'))
 })
 
 //generic login on landing page

@@ -28,6 +28,7 @@ userController.login = (req, res, next) => {
 }
 
 userController.signup = (req, res, next) => {
+  console.log('inside of signup middleware: ', req.body)
   const { username, password, email, isOrg } = req.body;
 
   console.log('in usercontroller signup');

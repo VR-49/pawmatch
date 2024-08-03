@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const MONGO_URI = 'mongodb+srv://joyceoh:zdYaVmVpYFXwq02H@cluster0.ypurzbj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
   dbName: 'pawmatch'
 })
   .then(() => console.log('Connected to Mongo'))

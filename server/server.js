@@ -11,13 +11,14 @@ const humanRouter = require('./routes/humanRouter');
 const shelterRouter = require('./routes/shelterRouter');
 
 // app.use(cors());
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use('/auth', userRouter);
-app.use('/human', humanRouter);
-app.use('/shelter', shelterRouter);
+app.use('/api/auth', userRouter);
+app.use('/api/human', humanRouter);
+app.use('/api/shelter', shelterRouter);
 
 /**
  * 404 handler
