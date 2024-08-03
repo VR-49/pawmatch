@@ -7,8 +7,8 @@ const app = express();
 const PORT = 3000;
 
 const userRouter = require('./routes/userRouter.js');
-const humanRouter = require('./routes/humanRouter');
-const shelterRouter = require('./routes/shelterRouter');
+const humanRouter = require('./routes/humanRouter.js');
+const shelterRouter = require('./routes/shelterRouter.js');
 
 // app.use(cors());
 app.use(express.json());
@@ -23,8 +23,8 @@ app.use('/api/shelter', shelterRouter);
 /**
  * 404 handler
  */
-app.use('/', (req,res) => {
-  res.status(404).send('Not Found');
+app.use('/', (req, res) => {
+  res.status(404).send('URL Not Found');
 });
     
     /**

@@ -12,7 +12,8 @@ const CreateAccount = () => {
   const [pwd, setPwd] = useState('');
   const [repeatPwd, setRepeatPwd] = useState('');
   const [checked, setChecked] = useState(false);
-  const [preferenceVisiblity, setPreferenceVisiblity] = useState(0)
+  const [preferenceVisiblity, setPreferenceVisiblity] = useState(false)
+  const [signedUp, setSignUp] = useState(false);
 
 
 	const handleChange = () => {
@@ -22,20 +23,11 @@ const CreateAccount = () => {
 		});
 	}
 
-  useEffect(()=>{
-    const orgDOM = document.querySelector('.Org');
-    const humanDOM = document.querySelector('.Human')
-    if (preferenceVisiblity === 1) {
-      orgDOM.style.display = ''
-    }
-    if (preferenceVisiblity === 2) {
-      humanDOM.style.display = ''
-    }
-  },[preferenceVisiblity])
-
     const signUp = async (event) => {
       event.preventDefault();
       try {
+        
+        if (checked) setPreferenceVisiblity(true);
         const response = await fetch("/api/auth/signup", {
             method: 'POST',
             headers: {
@@ -51,14 +43,6 @@ const CreateAccount = () => {
         if (response.ok) {
           const data = await response.json();
           console.log('Successful POST', data);
-          function displayChange() {
-            if (!checked){
-              setPreferenceVisiblity(1)
-            } else {
-              setPreferenceVisiblity(2)
-            }
-           
-          }
         } else {
             console.log('error');
         }
@@ -86,12 +70,16 @@ const CreateAccount = () => {
           <label> Are you an organization?</label>
           {/* not sure if you can uncheck need to test */}
           <input type='checkbox' name='account-type' onChange={handleChange}/>
-          <button type='submit' className='signup'>Sign Up</button>
+          <button type='submit' onClick={() => setSignUp(true)} className='signup'>Sign Up</button>
         </div>
         </form>
-        
-        <OrgPreferences className='afterCreate Org' username = '' style={{'display': 'none'}}/>
-        <HumanPreferences className='afterCreate Human' username = '' style={{'display': 'none'}}/>
+
+        {preferenceVisiblity && signedUp && (
+          <OrgPreferences className='afterCreate Org' username = {username} />
+        )}
+        {!preferenceVisiblity && signedUp && (
+          <HumanPreferences className='afterCreate Human' username = {username}/>  
+        )}
       </section>
 
 

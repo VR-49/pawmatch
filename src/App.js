@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import LoginContainer from './containers/login';
-import CreateAccount from './containers/createAccount';
+import CreateAccount from './containers/CreateAccount';
 import ShelterContainer from './containers/ShelterContainer';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom"
