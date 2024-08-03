@@ -12,8 +12,14 @@ userController.login = (req, res, next) => {
   console.log('in usercontroller login');
   Account.find({ username })
   .then(user => {
-    console.log('found user');
-    if (password === user.password) return next();
+    // console.log('found user', user[0]);
+    // console.log(password, user[0].password);
+    if (password === user[0].password) {
+      console.log('corect password');
+      res.locals.account = user;
+      res.locals.isOrg = user[0].isOrg;
+      return next();
+    }
     else return next({message: 'incorrect username or password'});
   })
   .catch(err => {
@@ -28,7 +34,6 @@ userController.signup = (req, res, next) => {
   Account.create({username, password, email, isOrg})
   .then((user) => {
     res.locals.body = req.body;
-    // res.locals.isOrg = isOrg;
     console.log(user);
     return next();
   })
@@ -37,14 +42,5 @@ userController.signup = (req, res, next) => {
   }
   )
 }
-
-// userController.createShelter = (req, res, next) => {
-//   const { username, password, email, isOrg } = res.locals.body;
-  
-//   Shelter.create({ })
-
-// }
-
-
 
 module.exports = userController;
