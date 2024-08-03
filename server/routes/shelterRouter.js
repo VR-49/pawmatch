@@ -1,6 +1,6 @@
 const express = require('express');
 
-const shelterController = require('../controller/shelterController.js');
+const shelterController = require('../controllers/shelterController.js');
 
 const router = express.Router();
 

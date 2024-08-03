@@ -7,14 +7,15 @@ const app = express();
 const PORT = 3000;
 
 const userRouter = require('./routes/userRouter.js');
-
+const humanRouter = require('./routes/humanRouter');
+const shelterRouter = require('./routes/shelterRouter');
 
 // app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use('/api/auth', userRouter);
+app.use('/auth', userRouter);
 
 /**
  * 404 handler
