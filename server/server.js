@@ -8,6 +8,7 @@ const PORT = 3000;
 
 // app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
 // mongoose.coonect('' , {
 //     useNewUrlParse: true,
