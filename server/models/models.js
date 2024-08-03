@@ -19,16 +19,14 @@ const accountSchema = new Schema ({
 
 const humanSchema = new Schema({
   location: String,
-  firstName : String,
-  lastName : String,
+  firstName: String,
+  lastName: String,
   starredPets: Object,
   bio: String,
-  picture: String,
-  radius : String
+  picture: String
 });
 
 const shelterSchema = new Schema({
-  shelterName: String,
   location: String,
   orgName: String,
   bio: String,
@@ -49,8 +47,8 @@ const Shelter = mongoose.model('shelter', shelterSchema);
 const Pet = mongoose.model('pet', petSchema);
   
 module.exports = {
+  Account, 
   Pet,
   Human,
-  Shelter,
-  Account
-}
+  Shelter
+}  
