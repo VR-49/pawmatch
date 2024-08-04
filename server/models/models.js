@@ -33,7 +33,7 @@ const shelterSchema = new Schema({
   orgName: String,
   bio: String,
   pet_Ids: Object,
-  picture: String
+  picture: String,
 });
 
 const petSchema = new Schema({
