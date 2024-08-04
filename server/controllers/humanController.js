@@ -23,7 +23,8 @@ humanController.signup = (req, res, next) => {
 humanController.login = async (req, res, next)=>{
     console.log('in humancontroller login');
     try{
-        const {username} = res.locals.account;
+        const { username } = req.query //NEW
+        // const {username} = res.locals.account;
         // console.log('account stuff:', username);
         // if(!username || !password){
         //     return restatus(400).json({

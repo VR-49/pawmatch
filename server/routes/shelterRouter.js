@@ -5,7 +5,8 @@ const petController = require('../controllers/petController.js');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', shelterController.getShelters, (req, res) => {
+  return res.status(200).json(res.locals.shelter)
     console.log('in router')
 })
 

@@ -5,6 +5,14 @@ const { Account, Pet, Human, Shelter } = require('../models/models.js');
 
 const shelterController = {}
 
+shelterController.getShelters = (req, res, next) => {
+  Shelter.find({})
+    .then(shelter => {
+      res.locals.shelter = shelter;
+      return next();
+    })
+}
+
 shelterController.signup = (req, res, next) => {
   const { username, location, orgName, bio,  picture } = req.body;
   console.log('in sheltercontroller signup');
@@ -24,7 +32,8 @@ shelterController.signup = (req, res, next) => {
 shelterController.login = async (req, res, next)=>{
     console.log('in sheltercontroller login');
     try{
-        const {username} = res.locals.account;
+        const { username } = req.query; //NEW
+        // const {username} = res.locals.account;
         // console.log('account stuff:', username);
         // if(!username || !password){
         //     return restatus(400).json({
