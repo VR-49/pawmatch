@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import HumanCard from '../components/HumanCard'; //assume if we gonna have one
+import ShelterCard from '../components/ShelterCard';
 
 function HumanContainer() {
     const [shelterData, setShelterData] = useState([]);
@@ -32,7 +33,16 @@ function HumanContainer() {
 
     return (
         <div className="main-human-container">
-            <button onClick={handleAddHuman} className="add-human-button">Add Human</button>
+            {shelterData.map((obj, index) => {
+              const keys = Object.keys(obj);
+              const id = obj[keys[0]];
+              const username = obj[keys[1]];
+              const location = obj[keys[2]];
+              const orgName = obj[keys[3]];
+              const bio = obj[keys[4]];
+
+              return <ShelterCard key={index} id={id} username={username} location={location} orgName={orgName} bio={bio}/>
+            })}
             {/* {shelterData.length ? (
                 shelterData.map(shelter => (
                     <HumanCard key={human.id} human={human} />

@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import HumanContainer from "./HumanContainer";
 
 const LoginContainer = () => {
   const [humanUserData, setHumanUserData] = useState(null);
   const [orgUserData, setOrgUserData] = useState(null);
-  const [isHuman, setIsHuman] = useState(false);
-  const [isOrg, setIsOrg] = useState(false);
+  // const [isHuman, setIsHuman] = useState(false);
+  // const [isOrg, setIsOrg] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -23,7 +25,8 @@ const LoginContainer = () => {
       if (humanResponse.ok) {
         const humanResult = await humanResponse.json();
         setHumanUserData(humanResult);
-        setIsHuman(true);
+        console.log(humanUserData);
+        navigate('/human-dashboard');
       } else if (humanResponse.status === 400) {
         const orgResponse = await fetch(`/api/shelter/login?username=${username}`, {
           headers: {
@@ -33,7 +36,8 @@ const LoginContainer = () => {
         if (orgResponse.ok) {
           const orgResult = await orgResponse.json();
           setOrgUserData(orgResult);
-          setIsOrg(true);
+          console.log(orgUserData);
+          navigate('/org-dashboard');
       }
         else {
         throw new Error('Error fetching data from human')
@@ -46,9 +50,6 @@ const LoginContainer = () => {
       setLoading(false);
     }
   };
-
-  console.log(humanUserData);
-  console.log(orgUserData);
 
   return (
     <>
@@ -80,9 +81,9 @@ const LoginContainer = () => {
         </form>
         {/* <span><a href='/createAccount'>Create an account.</a></span> */}
     </div>
-    {isHuman && (
+    {/* {isHuman && (
       <HumanContainer />
-    )}
+    )} */}
     </>
   )
 }
