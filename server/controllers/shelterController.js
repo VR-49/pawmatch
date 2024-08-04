@@ -53,7 +53,7 @@ shelterController.login = async (req, res, next)=>{
            return next();
     } catch(err){
       return next({
-          log: 'shelterctonroller.loign error ',
+          log: 'shelterctonroller.login error ',
           message: { err: 'Error in shelter controler login'}
       });
     }

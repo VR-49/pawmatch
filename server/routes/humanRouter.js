@@ -42,4 +42,10 @@ router.delete('/unstarpet',
     return res.status(200).json(res.locals);
 });
 
+router.delete('/delete/:username',
+  humanController.delete,
+  (req,res)=>{
+    return res.status(200).json(res.locals);
+});
+
 module.exports = router;

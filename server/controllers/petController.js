@@ -12,13 +12,6 @@ const petController = {}
 // picture: String,
 // flagUsers: Object
 
-const findIndex = (arr, obj) => {
-  for (let i = 0; i < arr.length; i++)
-    if (JSON.stringify(arr[i]) === JSON.stringify(obj)) return i;
-
-  return -1;
-}
-
 //called through the shelter router => will pass in shelterId
 petController.createPet = async (req, res, next) => {
   console.log('in add pet');
@@ -39,7 +32,7 @@ petController.createPet = async (req, res, next) => {
     });
 
     //add to shelter pet_ids array    
-    const shelter = await Shelter.findOneAndUpdate({_id: shelterId}, { $push: { pet_Ids: newPet._id } });
+    const shelter = await Shelter.findOneAndUpdate({_id: shelterId}, { $push: { pet_Ids: newPet.id } });
 
     console.log(newPet, shelter);
     return next();
@@ -61,21 +54,20 @@ petController.deletePet = async (req, res, next) => {
   };
 
   try{ 
-    const shelter = await Shelter.findById(shelterId);
-    const pet = await Pet.findById(petId);
-
     //remove petId from shelter's array of ids and delete pet
-    if (shelter && pet) {
-      const indexOfPet = shelter.pet_Ids.indexOf(pet._id);
+    const pet = await Pet.findById(petId);
+    const flagUsers = pet.flagUsers;
 
-      if (indexOfPet !== -1){
-        shelter.pet_Ids.splice(indexOfPet, 1);
-        await shelter.save();
-      } else return next(errObj);
-
-      await Pet.deleteOne({ _id: petId });
+    for (let i = 0; i < flagUsers.length; i++){
+      await Human.updateOne( {_id: flagUsers[i]}, {$pull: {starredPets: pet.id}});
     }
-    else return next(errObj); 
+    //go throug pets human users and remove the petId from its starred
+    const shelter = await Shelter.findOne({_id:shelterId});
+    await Shelter.updateOne({_id: shelterId}, {$pull: {pet_Ids: pet.id}});
+    await Pet.deleteOne({ _id: petId });
+
+    console.log('deleted shelter', shelter);
+    return next();
   }
   catch (err) { return next(errObj); }
 }
@@ -91,8 +83,9 @@ petController.starPet = async (req, res, next) => {
   };
 
   try {
-    const human = await Human.findOneAndUpdate({_id: humanId}, { $push: { starredPets: petId } });
-    const pet = await Pet.findOneAndUpdate({_id: petId}, { $push: { flagUsers: humanId } });
+    //push the correct ids into human and pet
+    const human = await Human.findOneAndUpdate({_id: humanId}, { $push: {starredPets: petId} });
+    const pet = await Pet.findOneAndUpdate({_id: petId}, { $push: {flagUsers: humanId} });
 
     console.log(human, pet);
     res.locals.pet = pet; res.locals.human = human;
@@ -109,26 +102,12 @@ petController.unstarPet = async (req, res, next) => {
   }
   
   try {
-    const pet = await Pet.findById(petId);
-    const human = await Human.findById(humanId);
+    //pull from arrays in human and pet
+    const human = await Human.findOneAndUpdate({_id: humanId}, { $pull: {starredPets: petId} });
+    const pet = await Pet.findOneAndUpdate({_id: petId}, { $pull: {flagUsers: humanId} });
     
-    //get indexes in respective arrays (using delcared function above)
-    const indexOfHuman = findIndex(human.pet_Ids, { petId: petId, petName: pet.name });
-    const indexOfPet = findIndex(pet.flagUsers, {humanId: humanId, humanUsername: human.username});
-
-    //update flagId in pet and add the humanId
-    if (indexOfHuman !== -1 && indexOfPet !== -1) {
-      human.pet_Ids.splice(indexOfHuman, 1);
-      await human.save();
-
-      pet.flagUsers.splice(indexOfPet, 1);
-      await pet.save();
-
-      res.locals.pet = pet; res.locals.human = human;
-      return next();
-    } 
-
-    else return next(errObj);
+    console.log('unstar pet: ', human, pet);
+    return next();
   } 
   catch (err) { return next(errObj); }
 

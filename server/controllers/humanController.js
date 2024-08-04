@@ -64,6 +64,32 @@ humanController.login = async (req, res, next)=>{
   //     return next(error);
   //   }
   // };
+  humanController.delete = async (req,res,next) =>{
+    console.log('in human delete');
+    try {
+      const {username} = req.params;
+      const user = await Human.findOne({username})
+      const starredPets = user.starredPets;
+
+      for(let i = 0; i < starredPets.length; i++) {
+        await Pet.updateOne( {_id: starredPets[i]}, {$pull: {flagUsers: user.id}});
+      }
+        // await Pet.updateMany(
+        //   {flagUsers:user._id},
+        //   {$pull: {flagUsers: user._id}}
+        console.log('afterr find pet and delete')
+        // );
+      await Human.deleteOne({username});
+
+      return next();
+    } catch(error){
+        return next({
+          log: 'humanController.delete error',
+          message:{err: 'Error in humanController.delete'}
+        });
+
+    }
+  }
 
 
 module.exports = humanController;
