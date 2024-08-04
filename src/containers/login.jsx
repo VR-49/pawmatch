@@ -1,7 +1,57 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import HumanContainer from "./HumanContainer";
 
 const LoginContainer = () => {
+  const [humanUserData, setHumanUserData] = useState(null);
+  const [orgUserData, setOrgUserData] = useState(null);
+  const [isHuman, setIsHuman] = useState(false);
+  const [isOrg, setIsOrg] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('')
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log('Login submitted with:', username, password);
+    try {
+      const humanResponse = await fetch(`/api/human/login?username=${username}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      if (humanResponse.ok) {
+        const humanResult = await humanResponse.json();
+        setHumanUserData(humanResult);
+        setIsHuman(true);
+      } else if (humanResponse.status === 400) {
+        const orgResponse = await fetch(`/api/shelter/login?username=${username}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        if (orgResponse.ok) {
+          const orgResult = await orgResponse.json();
+          setOrgUserData(orgResult);
+          setIsOrg(true);
+      }
+        else {
+        throw new Error('Error fetching data from human')
+      }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log(humanUserData);
+  console.log(orgUserData);
+
   return (
+    <>
     <div className="login-container">
         <h1>PawMatch</h1>
         <h4>login</h4>
@@ -12,7 +62,7 @@ const LoginContainer = () => {
               <input
                 type="text"
                 value={username}
-                onchange={e => setUsername(e.target.value)}
+                onChange={e => setUsername(e.target.value)}
               />
           </label>
         </div>  
@@ -22,13 +72,18 @@ const LoginContainer = () => {
                 <input 
                 type='password'
                 value = {password}
-                onchange={e => setPassword(e.target.value)}>
+                onChange={e => setPassword(e.target.value)}>
                 </input>
             </label>
             </div>
+            <button type='submit'>Login</button>
         </form>
-        <span><a href='/createAccount'>Create an account.</a></span>
+        {/* <span><a href='/createAccount'>Create an account.</a></span> */}
     </div>
+    {isHuman && (
+      <HumanContainer />
+    )}
+    </>
   )
 }
 

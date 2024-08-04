@@ -11,16 +11,17 @@ const ShelterContainer = () => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await fetch("/api/shelter-animals", {
+          const response = await fetch("/api/shelter/", {
             headers: {
                 'Content-Type': 'application/json',
             }
           });
           if (response.ok) {
             const data = await response.json();
+            console.log(data);
             setShelterData(data);
           } else {
-            console.error('Error fetching data:', respoonse.statusText);
+            console.error('Error fetching data:', response.statusText);
           }
         } catch (error) {
           console.error('Error', error);
