@@ -3,15 +3,20 @@ const fsCallback = require('fs');
 const path = require('path');
 const { Account, Pet, Human, Shelter } = require('../models/models.js');
 
+
+
 const shelterController = {}
 
 shelterController.signup = (req, res, next) => {
+  //files are in req.file NOT body
+  console.log('file', req.file)
   const { username, location, orgName, bio,  picture } = req.body;
   console.log('in sheltercontroller signup');
 
-  Shelter.create({username, location, orgName, bio, picture, pet_Ids: []})
+  //in order to pull up images take the image name and find in images
+  Shelter.create({username, location, orgName, bio, picture: req.file.filename, pet_Ids: []})
   .then((user) => {
-    res.locals.body = req.body;
+    res.locals.message = 'successfully uploaded'
     console.log(user);
     return next();
   })
