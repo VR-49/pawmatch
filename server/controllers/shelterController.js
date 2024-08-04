@@ -24,7 +24,7 @@ shelterController.signup = (req, res, next) => {
 shelterController.login = async (req, res, next)=>{
     console.log('in sheltercontroller login');
     try{
-        const {username} = res.locals.account[0];
+        const {username} = res.locals.account;
         // console.log('account stuff:', username);
         // if(!username || !password){
         //     return restatus(400).json({
@@ -51,4 +51,4 @@ shelterController.login = async (req, res, next)=>{
   }
 
 
-module.exports = shelterController;
+module.exports = shelterController; 

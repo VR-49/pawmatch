@@ -1,6 +1,7 @@
 const express = require('express');
 
 const shelterController = require('../controllers/shelterController.js');
+const petController = require('../controllers/petController.js');
 
 const router = express.Router();
 
@@ -10,10 +11,10 @@ router.get('/', (req, res) => {
 
 //generic login on landing page
 router.post('/signup', 
-    shelterController.signup,
-    (req, res) => {
-      return res.status(200).json(res.locals.body);
-  });
+  shelterController.signup,
+  (req, res) => {
+    return res.status(200).json(res.locals.body);
+});
 
 router.get('/login', 
   shelterController.login, 
@@ -21,5 +22,16 @@ router.get('/login',
     return res.status(200).json(res.locals);
 });
 
+router.post('/addpet',
+  petController.createPet,
+  (req, res) => {
+    return res.status(200).json(res.locals);
+});
+
+router.delete('/deletepet',
+  petController.deletePet,
+  (req, res) => {
+    return res.status(200).json(res.locals);
+});
 
 module.exports = router;
