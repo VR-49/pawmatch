@@ -1,6 +1,7 @@
 const express = require('express');
 
 const humanController = require('../controllers/humanController.js');
+const petController = require('../controllers/petController.js');
 
 const router = express.Router();
 
@@ -15,12 +16,30 @@ router.post('/signup',
   (req, res) => {
     return res.status(200).json(res.locals.body);
 //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
-  });
+});
 
 router.get('/login', 
   humanController.login, 
   (req, res) => {
     return res.status(200).json(res.locals);
-  });
+});
+
+// router.get('/render',
+//   humanController.render,
+//   (req, res) => {
+//     return res.status(200).json(res.locals);
+// });
+
+router.post('/starpet',
+  petController.starPet,
+  (req, res) => {
+    return res.status(200).json(res.locals);
+});
+
+router.delete('/unstarpet',
+  petController.unstarPet,
+  (req, res) => {
+    return res.status(200).json(res.locals);
+});
 
 module.exports = router;

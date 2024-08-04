@@ -12,8 +12,8 @@ const router = express.Router();
 
 // const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecretkey';
 router.get('/', (req, res) => {
-    res.status(200).sendFile(path.resolve(__dirname,'../../src/index.html'))
-})
+  res.status(200).sendFile(path.resolve(__dirname,'../../src/index.html'))
+});
 
 //generic login on landing page
 router.post('/signup', 
@@ -21,22 +21,17 @@ router.post('/signup',
     (req, res) => {
       return res.status(200).json(res.locals.body);
       //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
-  });
+});
 
 router.post('/login', 
   userController.login, 
   async (req, res, next) => {
-    // console.log('in org is true', res.locals.isOrg);
     if (res.locals.isOrg) { return shelterController.login(req, res, next); }
     else { return humanController.login(req, res, next); }
   },
   (req, res) => {
-    // console.log('done with login');
-    // console.log('sent body', res.locals.user);
-    return res.json(res.locals.user);
-    // return res.status(200).json(res.locals);
+    return res.status(200).json(res.locals.user);
   }
-  
 );
 
 
