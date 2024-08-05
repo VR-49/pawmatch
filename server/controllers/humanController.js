@@ -8,7 +8,7 @@ humanController.signup = (req, res, next) => {
   const { username, location, firstName, lastName, bio, picture } = req.body;
   console.log('in humancontroller signup');
 
-  Human.create({username, location, firstName, lastName, bio, picture, starredPets: []})
+  Human.create({username, location, firstName, lastName, bio, picture: req.file.filename, starredPets: []})
   .then((user) => {
     res.locals.body = req.body;
     console.log(user);
