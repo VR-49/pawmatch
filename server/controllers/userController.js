@@ -16,7 +16,7 @@ userController.login = (req, res, next) => {
     // console.log(password, user[0].password);
     if (password === user[0].password) {
       console.log('corect password');
-      res.locals.account = user;
+      res.locals.account = user[0];
       res.locals.isOrg = user[0].isOrg;
       return next();
     }
@@ -28,6 +28,7 @@ userController.login = (req, res, next) => {
 }
 
 userController.signup = (req, res, next) => {
+  console.log('inside of signup middleware: ', req.body)
   const { username, password, email, isOrg } = req.body;
 
   console.log('in usercontroller signup');

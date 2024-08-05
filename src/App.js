@@ -1,25 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import LoginContainer from './containers/login';
-import createAccount from './containers/createAccount';
+import CreateAccount from './containers/CreateAccount';
+import ShelterContainer from './containers/ShelterContainer';
 import NavBar from './components/NavBar';
+import HumanContainer from './containers/HumanContainer';
 import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom"
 
 
 const App = () => {
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log('Login submitted with:', username, password);
-    };
+    // const [username, setUsername] = useState('');
+    // const [password, setPassword] = useState('');
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     console.log('Login submitted with:', username, password);
+    // };
 
   return (
     <>
     <NavBar />
     <Routes>
       <Route path="/login" element={<LoginContainer />} />
-      <Route path="/signup" element={<createAccount />} />
+      <Route path="/signup" element={<CreateAccount />} />
+      <Route path="/shelters" element={<ShelterContainer />} />
+      <Route path="/login" element={<LoginContainer />} />
+      <Route path="/human-dashboard" element={<HumanContainer />} />
     </Routes>
     </>
     // <section>

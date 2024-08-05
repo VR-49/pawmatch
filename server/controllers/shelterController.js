@@ -3,15 +3,28 @@ const fsCallback = require('fs');
 const path = require('path');
 const { Account, Pet, Human, Shelter } = require('../models/models.js');
 
+
+
 const shelterController = {}
 
+shelterController.getShelters = (req, res, next) => {
+  Shelter.find({})
+    .then(shelter => {
+      res.locals.shelter = shelter;
+      return next();
+    })
+}
+
 shelterController.signup = (req, res, next) => {
+  //files are in req.file NOT body
+  console.log('file', req.file)
   const { username, location, orgName, bio,  picture } = req.body;
   console.log('in sheltercontroller signup');
 
-  Shelter.create({username, location, orgName, bio, picture, pet_Ids: []})
+  //in order to pull up images take the image name and find in images
+  Shelter.create({username, location, orgName, bio, picture: req.file.filename, pet_Ids: []})
   .then((user) => {
-    res.locals.body = req.body;
+    res.locals.message = 'successfully uploaded'
     console.log(user);
     return next();
   })
@@ -24,7 +37,8 @@ shelterController.signup = (req, res, next) => {
 shelterController.login = async (req, res, next)=>{
     console.log('in sheltercontroller login');
     try{
-        const {username} = res.locals.account[0];
+        const { username } = req.query; //NEW
+        // const {username} = res.locals.account;
         // console.log('account stuff:', username);
         // if(!username || !password){
         //     return restatus(400).json({
@@ -44,11 +58,11 @@ shelterController.login = async (req, res, next)=>{
            return next();
     } catch(err){
       return next({
-          log: 'shelterctonroller.loign error ',
+          log: 'shelterctonroller.login error ',
           message: { err: 'Error in shelter controler login'}
       });
     }
   }
 
 
-module.exports = shelterController;
+module.exports = shelterController; 

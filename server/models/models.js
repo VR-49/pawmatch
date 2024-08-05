@@ -33,11 +33,19 @@ const shelterSchema = new Schema({
   orgName: String,
   bio: String,
   pet_Ids: Object,
-  picture: String
+  picture: String,
 });
 
 const petSchema = new Schema({
-  stats: Object,
+  species: {type: String, required: true},
+  breed: {type: String, required: true},
+  name: {type: String, required: true },
+  gender: {type: String, required: true},
+  stats: {
+    age: {type: Number},
+    weight: {type: Number},
+    height: {type: Number},
+  },
   personality: String,
   picture: String,
   flagUsers: Object
