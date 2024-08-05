@@ -20,20 +20,32 @@ petController.load = async (req, res, next) => {
 }
 
 petController.createPet = async (req, res, next) => {
-  console.log('in add pet');
+  // console.log('in add pet');
+  console.log('picture:', req.file.filename)
+  // console.log('req.body', req.body)
   try {
     //create newPet object
-    const { species, breed, name, gender, age, weight, height, personality, picture, shelterId } = req.body;
-    
+    const { about, species, breed, name, gender, age, weight, height, personality, shelterId } = req.body;
     const stats = {
         age: (typeof age === 'number' && age > 0) ? age : null,
         weight: (typeof weight === 'number' && weight > 0) ? weight : null,        
         height: (typeof height === 'number' && height > 0) ? height : null,
     }
-    const newPet = await Pet.create({ 
-      species, breed, name, gender, stats, personality, picture, flagUsers: [],
+    
+    console.log(about, species, breed, name, gender, age, weight, height, personality, stats, shelterId);
+    const newPet = await Pet.create({
+      species, 
+      breed, 
+      name, 
+      gender, 
+      stats,
+      personality, 
+      about, 
+      picture: req.file.filename, 
+      flagUsers: [],
     //   stats: typeof stats === 'object' && stats !== null ? stats : {}, 
     });
+    console.log('created pet');
 
     //add to shelter pet_ids array    
     const shelter = await Shelter.findOneAndUpdate({_id: shelterId}, { $push: { pet_Ids: newPet.id } });
