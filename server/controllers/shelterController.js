@@ -13,9 +13,6 @@ shelterController.getShelters = (req, res, next) => {
       res.locals.shelter = shelter;
       return next();
     })
-    .catch( err => {
-      return next({log: "error in getShelters"});
-    });
 }
 
 shelterController.signup = (req, res, next) => {
@@ -26,9 +23,9 @@ shelterController.signup = (req, res, next) => {
 
   //in order to pull up images take the image name and find in images
   Shelter.create({username, location, orgName, bio, picture: req.file.filename, pet_Ids: []})
-  .then((shelter) => {
-    res.locals.shelter = shelter;
-    console.log(shelter);
+  .then((user) => {
+    res.locals.message = 'successfully uploaded'
+    console.log(user);
     return next();
   })
   .catch(err => {
@@ -37,69 +34,35 @@ shelterController.signup = (req, res, next) => {
   })
 };
   
-shelterController.login = async (req, res, next) => {
-  console.log('in sheltercontroller login');
-  try {
-    const { username } = req.query; //NEW
-    // const {username} = res.locals.account;
-    // console.log('account stuff:', username);
-    // if(!username || !password){
-    //     return restatus(400).json({
-    //         error: 'wrong user'
-    //     })
-    // }
-    //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
-    const shelter = await Shelter.findOne({username});
-    // if(!shelter) { return res.status(400).json({ error: 'shelter not found' }); }
-    // console.log(shelter);
-    //  res.locals = {shelter};
-    res.locals.shelter = shelter;
-    return next();
-  } catch(err){
-    return next({
-      log: 'shelterctonroller.login error ',
-      message: { err: 'Error in shelter controler login'}
-    });
-  }
-}
-
-const deletePets = async (petId) => {
-  const pet = await Pet.findById(petId);
-  const flagUsers = pet.flagUsers;
-
-  //removes corresponding petId from all appropriate human users
-  for (let i = 0; i < flagUsers.length; i++){
-    await Human.updateOne( {_id: flagUsers[i]}, {$pull: {starredPets: pet.id}});
-  }
-  //deletes itself
-  await Pet.deleteOne({ _id: petId });
-}
-
-
-shelterController.delete = async (req, res, next) => {
-  console.log('in sheltercontroller delete');
-
-  try {
-    const {username} = req.params;
-    const user = await Shelter.findOne({username})
-    const pet_Ids = user.pet_Ids;
-
-    for(let i = 0; i < pet_Ids.length; i++) {
-      await deletePets(pet_Ids[i]);
+shelterController.login = async (req, res, next)=>{
+    console.log('in sheltercontroller login');
+    try{
+        const { username } = req.query; //NEW
+        // const {username} = res.locals.account;
+        // console.log('account stuff:', username);
+        // if(!username || !password){
+        //     return restatus(400).json({
+        //         error: 'wrong user'
+        //     })
+        // }
+        //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
+        const shelter = await Shelter.findOne({username});
+        if(!shelter){
+            return res.status(400).json({
+                error: 'shelter not found'
+            });
+        }
+            // console.log(shelter);
+          //  res.locals = {shelter};
+           res.locals.user = shelter;
+           return next();
+    } catch(err){
+      return next({
+          log: 'shelterctonroller.login error ',
+          message: { err: 'Error in shelter controler login'}
+      });
     }
-
-    await Shelter.deleteOne({username});
-    return next();
-  } 
-  catch(error){
-    return next({
-      log: 'shelterController.delete error',
-      message:{err: 'Error in shelterController.delete'}
-    });
   }
-}
-
-
 
 
 module.exports = shelterController; 

@@ -3,13 +3,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const port = 3000; //or whatever port ure using
 const app = express();
+const apiRoutes = require('./routes/apiRoutes.js');
 
 const PORT = 3000;
 
 const userRouter = require('./routes/userRouter.js');
 const humanRouter = require('./routes/humanRouter.js');
 const shelterRouter = require('./routes/shelterRouter.js');
-const petRouter = require('./routes/petRouter.js');
 
 // app.use(cors());
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', userRouter);
 app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
-app.use('/api/pet/', petRouter);
+app.use('/api', apiRoutes);
 
 /**
  * 404 handler
@@ -29,6 +29,7 @@ app.use('/api/pet/', petRouter);
 app.use('/', (req, res) => {
   res.status(404).send('URL Not Found');
 });
+
     
     /**
      * Global error handler

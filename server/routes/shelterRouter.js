@@ -29,30 +29,12 @@ router.post('/signup',
     upload.single('picture'),
     shelterController.signup,
     (req, res) => {
-      return res.status(200).json(res.locals.shelter);
+      return res.status(200).json(res.locals.message);
   });
 
 router.get('/login', 
   shelterController.login, 
   (req, res) => {
-    return res.status(200).json(res.locals.shelter);
-});
-
-router.post('/addpet',
-  petController.createPet,
-  (req, res) => {
-    return res.status(200).json(res.locals);
-});
-
-router.delete('/deletepet',
-  petController.deletePet,
-  (req, res) => {
-    return res.status(200).json(res.locals);
-});
-
-router.delete('/delete/:username',
-  shelterController.delete,
-  (req,res)=>{
     return res.status(200).json(res.locals);
 });
 
