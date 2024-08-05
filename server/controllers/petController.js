@@ -4,15 +4,27 @@ const path = require('path');
 const { Account, Pet, Human, Shelter } = require('../models/models.js');
 const petController = {}
 
+petController.load = async (req, res, next) => {
+  console.log('in pet load');
+  try {
+    const petId = req.params.id;
+
+    const pet = await Pet.findById(petId);
+    console.log(pet);
+    res.locals.pet = pet;
+    return next();
+  }
+  catch(err){
+    return next({log: "error in petload: couldn't find pet"})
+  }
+}
 
 petController.createPet = async (req, res, next) => {
   console.log('in add pet');
   try {
     //create newPet object
     const { species, breed, name, gender, age, weight, height, personality, picture, shelterId } = req.body;
-    console.log('age', age, typeof age);
-    console.log('weight', weight, typeof weight);
-    console.log('height', height, typeof height);
+    
     const stats = {
         age: (typeof age === 'number' && age > 0) ? age : null,
         weight: (typeof weight === 'number' && weight > 0) ? weight : null,        
