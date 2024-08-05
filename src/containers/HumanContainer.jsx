@@ -40,8 +40,9 @@ function HumanContainer() {
               const location = obj[keys[2]];
               const orgName = obj[keys[3]];
               const bio = obj[keys[4]];
+              const pets = obj[keys[5]];
 
-              return <ShelterCard key={index} id={id} username={username} location={location} orgName={orgName} bio={bio}/>
+              return <ShelterCard key={index} id={id} username={username} location={location} orgName={orgName} bio={bio} pets={pets}/>
             })}
             {/* {shelterData.length ? (
                 shelterData.map(shelter => (
