@@ -6,20 +6,28 @@ const app = express();
 
 const PORT = 3000;
 
+const userRouter = require('./routes/userRouter.js');
+const humanRouter = require('./routes/humanRouter.js');
+const shelterRouter = require('./routes/shelterRouter.js');
+const petRouter = require('./routes/petRouter.js');
+
 // app.use(cors());
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-// mongoose.coonect('' , {
-//     useNewUrlParse: true,
-//     useUnifiedTopology: true;
-// }).then(() =>
+
+
+app.use('/api/auth', userRouter);
+app.use('/api/human', humanRouter);
+app.use('/api/shelter', shelterRouter);
+app.use('/api/pet/', petRouter);
 
 /**
  * 404 handler
  */
-app.use('/', (req,res) => {
-  res.status(404).send('Not Found');
+app.use('/', (req, res) => {
+  res.status(404).send('URL Not Found');
 });
     
     /**

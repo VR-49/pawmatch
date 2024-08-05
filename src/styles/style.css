@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.nav ul {
+  padding: 0;
+  margin: 10px;
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav a {
+  color: inherit;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.nav ul > li:hover {
+  background-color: #dedcff;
+  transition: background-color 0.3s ease
+}
+
+.nav ul > li {
+  border-radius: 5px;
+}
+
+
+.main-human-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 20px;
+  width: 75%;
+  margin: auto;
+}
+
+.shelter-card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.view-shelter-btn {
+  border: none;
+  background-color: #2563eb; 
+  color: white; 
+  padding: 10px 20px;
+  font-size: 16px; 
+  cursor: pointer; 
+  border-radius: 5px; 
+  margin: 20px;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  padding: 20px; 
+  background-color: #f9f9f9; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  margin: auto;
+  max-width: 600px; 
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.login-form > label, input {
+  margin: 10px;
+ }
