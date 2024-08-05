@@ -40,7 +40,8 @@ shelterController.signup = (req, res, next) => {
 shelterController.login = async (req, res, next) => {
   console.log('in sheltercontroller login');
   try {
-    const { username } = req.query; //NEW
+    const username = res.locals.username; //NEW
+    console.log('shelter username', username);
     // const {username} = res.locals.account;
     // console.log('account stuff:', username);
     // if(!username || !password){

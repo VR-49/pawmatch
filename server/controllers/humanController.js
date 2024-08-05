@@ -23,7 +23,8 @@ humanController.signup = (req, res, next) => {
 humanController.login = async (req, res, next)=>{
   console.log('in humancontroller login');
   try{
-    const { username } = req.query //NEW
+    const username = res.locals.username; //NEW
+    console.log('username', username);
     // const {username} = res.locals.account;
     // console.log('account stuff:', username);
     // if(!username || !password){
@@ -33,7 +34,12 @@ humanController.login = async (req, res, next)=>{
     // }
     //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
     const human = await Human.findOne({username});
-
+    if (!human) {
+      return next({
+        log: 'humanctonroller.loign error ',
+        message: { err: 'Error in human controler login'}
+      })
+    }
     res.locals.human = human;
     return next();
   } 

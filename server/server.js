@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path')
 const port = 3000; //or whatever port ure using
 const app = express();
 
@@ -15,6 +16,9 @@ const petRouter = require('./routes/petRouter.js');
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+
+//serve route to images
+app.use('/api/images', express.static(path.resolve(__dirname, './models/images')))
 
 
 

@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
 router.post('/signup', 
     userController.signup,
     (req, res) => {
+      console.log(res.locals.user);
       return res.status(200).json(res.locals.user);
       //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
 });
@@ -30,7 +31,8 @@ router.post('/login',
     else { return humanController.login(req, res, next); }
   },
   (req, res) => {
-    return res.status(200).json(res.locals.user);
+    console.log(res.locals);
+    return res.status(200).json(res.locals);
   }
 );
 
