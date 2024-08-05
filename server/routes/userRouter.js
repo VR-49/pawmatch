@@ -19,13 +19,13 @@ router.get('/', (req, res) => {
 router.post('/signup', 
     userController.signup,
     (req, res) => {
-      return res.status(200).json(res.locals.body);
+      return res.status(200).json(res.locals.user);
       //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
 });
 
 router.post('/login', 
   userController.login, 
-  async (req, res, next) => {
+  (req, res, next) => {
     if (res.locals.isOrg) { return shelterController.login(req, res, next); }
     else { return humanController.login(req, res, next); }
   },
