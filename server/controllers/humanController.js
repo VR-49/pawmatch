@@ -2,6 +2,7 @@ const fs = require('fs/promises');
 const fsCallback = require('fs');
 const path = require('path');
 const { Account, Pet, Human, Shelter } = require('../models/models.js');
+const apiController = require('./apiController');
 
 const humanController = {}
 humanController.signup = (req, res, next) => {
@@ -9,9 +10,9 @@ humanController.signup = (req, res, next) => {
   console.log('in humancontroller signup');
 
   Human.create({username, location, firstName, lastName, bio, picture: req.file.filename, starredPets: []})
-  .then((human) => {
-    res.locals.human = human;
-    console.log(human);
+  .then((user) => {
+    res.locals.body = req.body;
+    console.log(user);
     return next();
   })
   .catch(err => {
@@ -21,29 +22,41 @@ humanController.signup = (req, res, next) => {
 };
   
 humanController.login = async (req, res, next)=>{
-  console.log('in humancontroller login');
-  try{
-    const { username } = req.query //NEW
-    // const {username} = res.locals.account;
-    // console.log('account stuff:', username);
-    // if(!username || !password){
-    //     return restatus(400).json({
-    //         error: 'wrong user'
-    //     })
-    // }
-    //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
-    const human = await Human.findOne({username});
+    console.log('in humancontroller login');
+    try{
+        const { username } = req.query //NEW
+        // const {username} = res.locals.account;
+        // console.log('account stuff:', username);
+        // if(!username || !password){
+        //     return restatus(400).json({
+        //         error: 'wrong user'
+        //     })
+        // }
+        //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
+        await apiController.getGeoLocation(req, res, next, async (err) =>{
+          if(err)return next (err);
+          const {lat, lng} = req.geolocation;
 
-    res.locals.human = human;
-    return next();
-  } 
-  catch(err){
-    return next({
-      log: 'humanctonroller.loign error ',
-      message: { err: 'Error in human controler login'}
-    });
+        const human = await Human.findOne({username});
+        if(!human){
+            return res.status(400).json({
+                error: 'human not found'
+            });
+        }
+        human.location = `Lat : ${lat}, Lng: ${lng}`;
+        await human.save();
+
+
+           res.locals.user = human;
+           return next();
+      });
+    } catch(err){
+      return next({
+          log: 'humanctonroller.loign error ',
+          message: { err: 'Error in human controler login'}
+      });
+    }
   }
-}
 
   // humanController.starPets = async (req, res, next) => {
   //   try {
