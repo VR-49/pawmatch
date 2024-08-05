@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 
 const OrgPreferences = (props) => {
 	const [address, setAddress] = useState('')
@@ -7,6 +7,7 @@ const OrgPreferences = (props) => {
 	const [name, setName] = useState('')
 	const [image, setImage] = useState('')
 
+	//image/file handler
 	function handleImage(e) {
 		setImage(e.target.files[0])
 	}

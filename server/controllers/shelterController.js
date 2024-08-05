@@ -18,14 +18,14 @@ shelterController.getShelters = (req, res, next) => {
 shelterController.signup = (req, res, next) => {
   //files are in req.file NOT body
   // console.log('file', req.file)
-  const { username, location, orgName, bio,  picture } = req.body;
+  const { username, location, orgName, bio } = req.body;
   console.log('in sheltercontroller signup');
 
   //in order to pull up images take the image name and find in images
-  Shelter.create({username, location, orgName, bio, picture: req.file.filename, pet_Ids: []})
-  .then((user) => {
-    res.locals.message = 'successfully uploaded'
-    console.log(user);
+  Shelter.create({ username, location, orgName, bio, picture: req.file.filename, pet_Ids: [] })
+  .then((shelter) => {
+    res.locals.shelter = shelter;
+    console.log(shelter);
     return next();
   })
   .catch(err => {
