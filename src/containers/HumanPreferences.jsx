@@ -9,9 +9,15 @@ function HumanPreferences({ username }) {
         password: '',
         bio: '',
         location: '',
-        picture: ''
+        // picture: ''
     });
+
+    const [image, setImage] = useState('')
     const [error, setError] = useState('');
+
+    const handleImage = (e) => {
+        setImage(e.target.files[0])
+    }
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -23,13 +29,21 @@ function HumanPreferences({ username }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const attachImg = new FormData()
+        attachImg.append('picture', image);
+        attachImg.append('firstName', formData.firstName);
+        attachImg.append('lastName', formData.lastName);
+        attachImg.append('username', formData.username);
+        // don't need to pass password?
+        attachImg.append('password', formData.password);
+        attachImg.append('bio', formData.bio);
+        attachImg.append('location', formData.location);
+        console.log('attachImg', attachImg)
+
         try {
             const response = await fetch('/api/human/signup', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+                body: attachImg,
             });
             if (!response.ok) throw new Error('Failed to sign up');
             const data = await response.json();
@@ -45,13 +59,13 @@ function HumanPreferences({ username }) {
         <form onSubmit={handleSubmit}>
             <h1>Sign Up</h1>
             {error && <p>Error: {error}</p>}
-            <input
+            {/* <input
                 type="text"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
                 placeholder="Username"
-            />
+            /> */}
             <input
                 type="text"
                 name="firstName"
@@ -66,13 +80,13 @@ function HumanPreferences({ username }) {
                 onChange={handleChange}
                 placeholder="Last Name"
             />
-            <input
+            {/* <input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-            />
+            /> */}
             <input
                 type="text"
                 name="bio"
@@ -95,13 +109,13 @@ function HumanPreferences({ username }) {
                 placeholder="Preferred Radius"
             />
             <input
-                type="text"
+                type="file"
                 name="picture"
                 value={formData.picture}
-                onChange={handleChange}
+                onChange={handleImage}
                 placeholder="Profile Picture URL"
             />
-            <label>
+            {/* <label>
                 Are you signing up as an organization?
                 <input
                     type="checkbox"
@@ -109,7 +123,7 @@ function HumanPreferences({ username }) {
                     checked={formData.isOrg}
                     onChange={handleChange}
                 />
-            </label>
+            </label> */}
             <button type="submit">Sign Up</button>
         </form>
     );

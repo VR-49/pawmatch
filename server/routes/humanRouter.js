@@ -4,14 +4,30 @@ const humanController = require('../controllers/humanController.js');
 const petController = require('../controllers/petController.js');
 
 const router = express.Router();
+const multer = require('multer');
+const path = require('path')
+
+//storage
+const Storage = multer.diskStorage({
+  destination:(req, file, cb) => {
+    cb(null, path.resolve(__dirname, '../models/images'))
+  },
+  filename:(req, file, cb) => {
+    cb(null, Date.now() + '--' + file.originalname);
+  }
+});
+const upload = multer({
+  storage: Storage
+})
 
 // const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecretkey';
 router.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname,'../../src/index.html'))
 })
 
-//generic login on landing page
-router.post('/signup', 
+//updating the bio page of human
+router.post('/signup',
+  upload.single('picture'), 
   humanController.signup,
   (req, res) => {
     return res.status(200).json(res.locals.body);
