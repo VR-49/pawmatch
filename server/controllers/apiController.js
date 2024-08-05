@@ -3,17 +3,16 @@ const fs = require('fs/promises');
 const fsCallback = require('fs');
 const path = require('path');
 const { Account, Pet, Human, Shelter } = require('../models/models.js');
-//gelocaiton API : AIzaSyDscQ4SaGq_K2hODzPjKrNIySWcf36tcGY
-const Mapkey =  'AIzaSyDscQ4SaGq_K2hODzPjKrNIySWcf36tcGY';
 const apiController = {};
 const axios = require('axios');
+const apikey = require('../../apikey.js/apikeys.js'); 
 //need to npm install axios  ^
 
 //gelocaiotn method
 apiController.getGeolocation = async (req,res,next)=>{
     console.log(`before fetc`)
     try{
-        const response = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDscQ4SaGq_K2hODzPjKrNIySWcf36tcGY`, {
+        const response = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=${apikey}`, {
             method: 'POST',
     });
     const data = await response.json();
@@ -42,7 +41,7 @@ apiController.geoCodeMiddleware = async (req, res, next) => {
 }
 
 try {
-    const apiKey = 'AIzaSyDscQ4SaGq_K2hODzPjKrNIySWcf36tcGY';
+    ;
     console.log
     const response = await axios.get(``, {
         params: {
