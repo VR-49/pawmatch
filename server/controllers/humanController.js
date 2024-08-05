@@ -2,6 +2,7 @@ const fs = require('fs/promises');
 const fsCallback = require('fs');
 const path = require('path');
 const { Account, Pet, Human, Shelter } = require('../models/models.js');
+const apiController = require('./apiController');
 
 const humanController = {}
 humanController.signup = (req, res, next) => {
@@ -32,14 +33,23 @@ humanController.login = async (req, res, next)=>{
         //     })
         // }
         //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
+        await apiController.getGeoLocation(req, res, next, async (err) =>{
+          if(err)return next (err);
+          const {lat, lng} = req.geolocation;
+
         const human = await Human.findOne({username});
         if(!human){
             return res.status(400).json({
-                error: 'shelter not found'
+                error: 'human not found'
             });
         }
+        human.location = `Lat : ${lat}, Lng: ${lng}`;
+        await human.save();
+
+
            res.locals.user = human;
            return next();
+      });
     } catch(err){
       return next({
           log: 'humanctonroller.loign error ',
