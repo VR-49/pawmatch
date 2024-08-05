@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.login-container {
+    display: flex;
+    flex: auto;
+    justify-content: center;
+}
+
+/* navbar */
+.nav {
+	list-style-type: none;
+}

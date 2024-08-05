@@ -17,7 +17,7 @@ shelterController.getShelters = (req, res, next) => {
 
 shelterController.signup = (req, res, next) => {
   //files are in req.file NOT body
-  console.log('file', req.file)
+  // console.log('file', req.file)
   const { username, location, orgName, bio,  picture } = req.body;
   console.log('in sheltercontroller signup');
 
