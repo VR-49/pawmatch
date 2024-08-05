@@ -39,10 +39,10 @@ const CreateAccount = () => {
               isOrg: checked,
             })
         });
-        console.log(response);
+        console.log('in create account response', response);
         if (response.ok) {
-          const data = await response.json();
-          setSignUp(true);
+          setSignUp(true);          
+          const data = response;
           console.log('Successful POST', data);
         } else {
             console.log('error');

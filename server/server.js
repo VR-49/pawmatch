@@ -11,6 +11,7 @@ const userRouter = require('./routes/userRouter.js');
 const humanRouter = require('./routes/humanRouter.js');
 const shelterRouter = require('./routes/shelterRouter.js');
 const petRouter = require('./routes/petRouter.js');
+const apiRoutes = require('./routes/apiRoutes.js');
 
 // app.use(cors());
 app.use(express.json());
@@ -25,7 +26,8 @@ app.use('/api/images', express.static(path.resolve(__dirname, './models/images')
 app.use('/api/auth', userRouter);
 app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
-app.use('/api/pet/', petRouter);
+app.use('/api/pet', petRouter)
+app.use('/api', apiRoutes);
 
 /**
  * 404 handler
@@ -33,6 +35,7 @@ app.use('/api/pet/', petRouter);
 app.use('/', (req, res) => {
   res.status(404).send('URL Not Found');
 });
+
     
     /**
      * Global error handler

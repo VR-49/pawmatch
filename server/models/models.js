@@ -47,6 +47,7 @@ const petSchema = new Schema({
     height: {type: Number},
   },
   personality: String,
+  about: String,
   picture: String,
   flagUsers: Object
 });

@@ -40,20 +40,11 @@ shelterController.signup = (req, res, next) => {
 shelterController.login = async (req, res, next) => {
   console.log('in sheltercontroller login');
   try {
-    const username = res.locals.username; //NEW
+    const username = res.locals.username; 
     console.log('shelter username', username);
-    // const {username} = res.locals.account;
-    // console.log('account stuff:', username);
-    // if(!username || !password){
-    //     return restatus(400).json({
-    //         error: 'wrong user'
-    //     })
-    // }
-    //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
     const shelter = await Shelter.findOne({username});
-    // if(!shelter) { return res.status(400).json({ error: 'shelter not found' }); }
-    // console.log(shelter);
-    //  res.locals = {shelter};
+
+    
     res.locals.shelter = shelter;
     return next();
   } catch(err){
@@ -99,8 +90,5 @@ shelterController.delete = async (req, res, next) => {
     });
   }
 }
-
-
-
 
 module.exports = shelterController; 

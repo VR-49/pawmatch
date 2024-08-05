@@ -29,7 +29,7 @@ router.post('/signup',
     upload.single('picture'),
     shelterController.signup,
     (req, res) => {
-      return res.status(200).json(res.locals.shelter);
+      return res.status(200).json(res.locals.message);
   });
 
 router.get('/login', 
@@ -39,6 +39,7 @@ router.get('/login',
 });
 
 router.post('/addpet',
+  upload.single('picture'),
   petController.createPet,
   (req, res) => {
     return res.status(200).json(res.locals);

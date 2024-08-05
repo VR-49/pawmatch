@@ -56,11 +56,11 @@ const ShelterAnimalCard = () => {
   petInfo.map((obj, index) => {
     const keys = Object.keys(obj);
     // const stats = obj[keys[0]].stats;
-    console.log('STATS', obj.pet.stats);
+    // console.log('STATS', obj.pet.stats);
     // console.log('STATS', stats);
-    console.log(keys)
-    console.log(obj)
-    console.log(index)
+    console.log('keys', keys)
+    console.log('obj,', obj)
+    console.log('index', index)
   })
   return (
     <div className="shelter-animal-card-container">

@@ -7,6 +7,7 @@ const userController = {}
 
 userController.login = (req, res, next) => {
   const { username, password } = req.body;
+
   
   console.log('in usercontroller login');
   Account.find({ username })
