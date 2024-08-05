@@ -56,7 +56,7 @@ const LoginContainer = () => {
     <div className="login-container">
         <h1>PawMatch</h1>
         <h4>login</h4>
-        <form onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleSubmit}>
         <div>
           <label>
               Username: 
