@@ -7,8 +7,6 @@ const userController = {}
 
 userController.login = (req, res, next) => {
   const { username, password } = req.body;
-
-  
   console.log('in usercontroller login');
   Account.find({ username })
   .then(user => {
@@ -29,7 +27,7 @@ userController.login = (req, res, next) => {
 }
 
 userController.signup = (req, res, next) => {
-  console.log('inside of signup middleware: ', req.body)
+  //console.log('inside of signup middleware: ');
   const { username, password, email, isOrg } = req.body;
 
   console.log('in usercontroller signup');

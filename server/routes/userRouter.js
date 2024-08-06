@@ -22,15 +22,15 @@ router.post('/signup',
       return res.status(200).json(res.locals.body);
       //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
 });
-
+// , 
+//   async (req, res, next) => {
+//     if (res.locals.isOrg) { return shelterController.login(req, res, next); }
+//     else { return humanController.login(req, res, next); }
+//   },
 router.post('/login', 
-  userController.login, 
-  async (req, res, next) => {
-    if (res.locals.isOrg) { return shelterController.login(req, res, next); }
-    else { return humanController.login(req, res, next); }
-  },
+  userController.login,
   (req, res) => {
-    console.log(res.locals);
+    //console.log(res.locals);
     return res.status(200).json(res.locals);
   }
 );
