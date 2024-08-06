@@ -17,33 +17,37 @@ const LoginContainer = () => {
     event.preventDefault();
     console.log('Login submitted with:', username, password);
     try {
-      const humanResponse = await fetch(`/api/human/login?username=${username}`, {
+      const userResponse = fetch('/api/auth/login', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        }
-      })
-      if (humanResponse.ok) {
-        const humanResult = await humanResponse.json();
-        setHumanUserData(humanResult);
-        console.log(humanUserData);
-        navigate('/human-dashboard');
-      } else if (humanResponse.status === 400) {
-        const orgResponse = await fetch(`/api/shelter/login?username=${username}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          }
+        },
+        body: JSON.stringify({
+          username: username, 
+          password: password,
         })
-        if (orgResponse.ok) {
-          const orgResult = await orgResponse.json();
-          setOrgUserData(orgResult);
-          console.log(orgUserData);
-          navigate('/org-dashboard');
-      }
-        else {
-        throw new Error('Error fetching data from human')
-      }
-      }
-    } catch (error) {
+      }).then(data => data.json())
+      .then(userResponse => {
+        console.log('checking userResponse', userResponse);
+        if (userResponse.error){
+          console.log('incorrect user or password clientside');
+          throw new Error('Error fetching data from human');
+        }
+        if (userResponse){
+          console.log('userresponse', userResponse);
+          if (userResponse.isOrg) {
+            setOrgUserData(userResponse.shelter);
+            navigate('/org-dashboard');
+          }
+          else {
+            console.log('ishuman');
+            setHumanUserData(userResponse.human);
+            navigate('/human-dashboard');
+          }
+        }
+      }).catch(err => err)
+    }
+    catch (error) {
       console.error('Error:', error);
       setError(error.message);
     } finally {
@@ -52,40 +56,34 @@ const LoginContainer = () => {
   };
 
   return (
-    <>
     <div className="login-container">
-        <h1>PawMatch</h1>
-        <h4>login</h4>
-        <form className="login-form" onSubmit={handleSubmit}>
+      <h1>PawMatch 🐾</h1>
+      <h4>Login 🐶🐱</h4>
+      <form className="login-form" onSubmit={handleSubmit}>
         <div>
           <label>
-              Username: 
-              <input
-                type="text"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
+            Username 🐱:
+            <input
+              type="text"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+            />
           </label>
-        </div>  
+        </div>
         <div>
-            <label>
-                Password: 
-                <input 
-                type='password'
-                value = {password}
-                onChange={e => setPassword(e.target.value)}>
-                </input>
-            </label>
-            </div>
-            <button type='submit'>Login</button>
-        </form>
-        {/* <span><a href='/createAccount'>Create an account.</a></span> */}
+          <label>
+            Password 🐶:
+            <input
+              type='password'
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+          </label>
+        </div>
+        <button type='submit'>Login 🐾</button>
+      </form>
     </div>
-    {/* {isHuman && (
-      <HumanContainer />
-    )} */}
-    </>
-  )
-}
+  );
+};
 
 export default LoginContainer;

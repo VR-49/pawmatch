@@ -30,14 +30,14 @@ router.post('/signup',
   upload.single('picture'), 
   humanController.signup,
   (req, res) => {
-    return res.status(200).json(res.locals.human);
+    return res.status(200).json(res.locals.body);
 //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
 });
 
 router.get('/login', 
   humanController.login, 
   (req, res) => {
-    return res.status(200).json(res.locals.human);
+    return res.status(200).json(res.locals);
 });
 
 // router.get('/render',

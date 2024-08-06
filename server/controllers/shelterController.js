@@ -21,11 +21,11 @@ shelterController.getShelters = (req, res, next) => {
 shelterController.signup = (req, res, next) => {
   //files are in req.file NOT body
   // console.log('file', req.file)
-  const { username, location, orgName, bio } = req.body;
+  const { username, location, orgName, bio,  picture } = req.body;
   console.log('in sheltercontroller signup');
 
   //in order to pull up images take the image name and find in images
-  Shelter.create({ username, location, orgName, bio, picture: req.file.filename, pet_Ids: [] })
+  Shelter.create({username, location, orgName, bio, picture: req.file.filename, pet_Ids: []})
   .then((shelter) => {
     res.locals.shelter = shelter;
     console.log(shelter);
@@ -40,19 +40,11 @@ shelterController.signup = (req, res, next) => {
 shelterController.login = async (req, res, next) => {
   console.log('in sheltercontroller login');
   try {
-    const { username } = req.query; //NEW
-    // const {username} = res.locals.account;
-    // console.log('account stuff:', username);
-    // if(!username || !password){
-    //     return restatus(400).json({
-    //         error: 'wrong user'
-    //     })
-    // }
-    //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
+    const username = res.locals.username; 
+    console.log('shelter username', username);
     const shelter = await Shelter.findOne({username});
-    // if(!shelter) { return res.status(400).json({ error: 'shelter not found' }); }
-    // console.log(shelter);
-    //  res.locals = {shelter};
+
+    
     res.locals.shelter = shelter;
     return next();
   } catch(err){
@@ -98,8 +90,5 @@ shelterController.delete = async (req, res, next) => {
     });
   }
 }
-
-
-
 
 module.exports = shelterController; 

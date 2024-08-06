@@ -47,7 +47,7 @@ const ShelterContainer = () => {
         {shelterData.map((obj, index) => {
         // whatever our data 
         //pass down data as props to shelter animal card
-        return <ShelterAnimalCard />
+        <ShelterAnimalCard key={animal.id} animal={animal} />
         })}
     <button onClick={handleAddAnimal} className="add-animal-button">Add Animal</button>
     </div>
