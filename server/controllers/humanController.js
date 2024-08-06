@@ -14,7 +14,7 @@ humanController.getDB = (req, res, next) => {
   })
   .catch(error => {
     const err = {
-      log: 'humanController.getDB: grab data issue',
+      log: 'humanController.getDB grab data issue: ' + error,
       status: 500,
       message: { err: 'DB grab data error' }
     };

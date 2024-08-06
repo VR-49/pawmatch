@@ -21,41 +21,40 @@ const upload = multer({
 
 router.get('/', shelterController.getShelters, (req, res) => {
   return res.status(200).json(res.locals.shelter)
-    console.log('in router')
 })
 
-//generic login on landing page
-router.post('/signup', 
-    upload.single('picture'),
-    shelterController.signup,
-    (req, res) => {
-      return res.status(200).json(res.locals.message);
-  });
+// //generic login on landing page
+// router.post('/signup', 
+//     upload.single('picture'),
+//     shelterController.signup,
+//     (req, res) => {
+//       return res.status(200).json(res.locals.message);
+//   });
 
-router.get('/login', 
-  shelterController.login, 
-  (req, res) => {
-    return res.status(200).json(res.locals.shelter);
-});
+// router.get('/login', 
+//   shelterController.login, 
+//   (req, res) => {
+//     return res.status(200).json(res.locals.shelter);
+// });
 
-router.post('/addpet',
-  upload.single('picture'),
-  petController.createPet,
-  (req, res) => {
-    return res.status(200).json(res.locals);
-});
+// router.post('/addpet',
+//   upload.single('picture'),
+//   petController.createPet,
+//   (req, res) => {
+//     return res.status(200).json(res.locals);
+// });
 
-router.delete('/deletepet',
-  petController.deletePet,
-  (req, res) => {
-    return res.status(200).json(res.locals);
-});
+// router.delete('/deletepet',
+//   petController.deletePet,
+//   (req, res) => {
+//     return res.status(200).json(res.locals);
+// });
 
-router.delete('/delete/:username',
-  shelterController.delete,
-  (req,res)=>{
-    return res.status(200).json(res.locals);
-});
+// router.delete('/delete/:username',
+//   shelterController.delete,
+//   (req,res)=>{
+//     return res.status(200).json(res.locals);
+// });
 
 
 module.exports = router;

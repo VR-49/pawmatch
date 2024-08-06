@@ -13,8 +13,13 @@ shelterController.getShelters = (req, res, next) => {
       res.locals.shelter = shelter;
       return next();
     })
-    .catch( err => {
-      return next({log: "error in getShelters"});
+    .catch( error => {
+      const err = {
+        log: 'shelterController.getShelters grab data issue: ' + error,
+        status: 500,
+        message: { err: 'DB grab data error' }
+      };
+      next(err);
     });
 }
 
