@@ -17,12 +17,6 @@ const NavBar = () => {
         <li>
           <Link to="/login">Login</Link>
         </li>
-        <li>
-          <Link to="/shelters">Shelter - for test</Link>
-        </li>
-        <li>
-          <Link to="/shelters-animals">Shelter Animals</Link>
-        </li>
       </ul>
     </nav>
   )

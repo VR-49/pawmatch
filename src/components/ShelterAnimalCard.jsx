@@ -16,7 +16,22 @@ const getImgSrc = src => (srcIsExternal(src) || srcIsMailto(src)
 const ShelterAnimalCard = () => {
   const [petInfo, setPetInfo] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [srcImage, setSrcImage] = useState('')
+  const [petsArray, setPetsArray] = useState([])
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+
+  //carousel
+  const nextSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === petsArray.length - 1 ? 0 : prevIndex + 1
+    );
+  }
+  const prevSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === 0 ? petsArray.length - 1 : prevIndex - 1
+    );
+  };
+
   const location = useLocation();
   const { pets } = location.state;
 
@@ -41,23 +56,34 @@ const ShelterAnimalCard = () => {
       }
     }
     setPetInfo(fetchedPets);
-    // setSrcImage()
     setLoading(false);
   }
-
+// what does this do?
   useEffect(() => {
     getPets(pets);
   }, [pets]);
 
+  //makes the animal cards
+  useEffect(() => {
+    setPetsArray(
+      petInfo.map((obj, index) => 
+      (<div key={index} className="pet-card">
+      {/* add image resolve its path*/}
+        <img src= {getImgSrc(obj.pet.picture)} alt={`Furry Friend ${obj.pet.name}`}></img>
+        <p>Stats: {obj.pet.stats.age || ""}</p>
+        <p>ID: {obj.pet._id || ""}</p>
+        <p>Species: {obj.pet.species || ""}</p>
+        <p>Name: {obj.pet.name || ""}</p>
+        <p>Breed: {obj.pet.breed || ""}</p>
+        <p>Personality: {obj.pet.personality || ""}</p>
+      </div>)))
+  }, [petInfo])
   // if (loading) {
   //   return <p>Loading...</p>;
   // }
   console.log(petInfo);
   petInfo.map((obj, index) => {
     const keys = Object.keys(obj);
-    // const stats = obj[keys[0]].stats;
-    // console.log('STATS', obj.pet.stats);
-    // console.log('STATS', stats);
     console.log('keys', keys)
     console.log('obj,', obj)
     console.log('index', index)
@@ -72,16 +98,9 @@ const ShelterAnimalCard = () => {
         <p>ID: {obj.id || ""}</p>
         </div>
       ))} */}
-      {petInfo.map((obj, index) => 
-        (<div key={index} className="pet-card">
-        {/* add image resolve its path*/}
-          <img src= {getImgSrc(obj.pet.picture)} alt={`Furry Friend ${obj.pet.name}`}></img>
-          <p>Stats: {obj.pet.stats.age || ""}</p>
-          <p>ID: {obj.pet._id || ""}</p>
-          <p>Species: {obj.pet.species || ""}</p>
-          <p>Name: {obj.pet.name || ""}</p>
-        </div>)
-      )}
+      <button className="button" onClick={prevSlide}>Prev</button>
+      {petsArray[activeIndex]}
+      <button className="button" onClick={nextSlide}>Next!!</button>
     </div>
   );
 }

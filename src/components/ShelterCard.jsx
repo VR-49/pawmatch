@@ -19,9 +19,9 @@ const ShelterCard = ({ id, username, location, orgName, bio, pets }) => {
       <p>{username}</p>
       <p>{location}</p>
       <p>{bio}</p>
-      {pets.map(petId => {
+      {/* {pets.map(petId => {
         return <p key={petId}>{petId}</p>
-      })}
+      })} */}
       <button onClick={handleView} className="view-shelter-btn">View Shelter</button>
     </div>
   ) 
