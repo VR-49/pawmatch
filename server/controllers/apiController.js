@@ -5,14 +5,15 @@ const path = require('path');
 const { Account, Pet, Human, Shelter } = require('../models/models.js');
 const apiController = {};
 const axios = require('axios');
-const apikey = require('../../apikey.js/apikeys.js'); 
+// const apikey = require('../../apikey.js/apikeys.js'); 
 //need to npm install axios  ^
 
 //gelocaiotn method
 apiController.getGeolocation = async (req,res,next)=>{
     console.log(`before fetc`)
     try{
-        const response = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=${apikey}`, {
+        // const response = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=${apikey}`, {
+      const response = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDscQ4SaGq_K2hODzPjKrNIySWcf36tcGY`, {
             method: 'POST',
     });
     const data = await response.json();

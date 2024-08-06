@@ -30,7 +30,8 @@ router.post('/login',
     else { return humanController.login(req, res, next); }
   },
   (req, res) => {
-    return res.status(200).json(res.locals.user);
+    console.log(res.locals);
+    return res.status(200).json(res.locals);
   }
 );
 

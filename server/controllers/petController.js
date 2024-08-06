@@ -11,7 +11,19 @@ const petController = {}
 // personality: String,
 // picture: String,
 // flagUsers: Object
-
+petController.load = async (req, res, next) => {
+  console.log('in pet load');
+  try {
+    const petId = req.params.id;
+    const pet = await Pet.findById(petId);
+    console.log(pet);
+    res.locals.pet = pet;
+    return next();
+  }
+  catch(err){
+    return next({log: "error in petload: couldn't find pet"})
+  }
+}
 //called through the shelter router => will pass in shelterId
 petController.createPet = async (req, res, next) => {
   // console.log('in add pet');

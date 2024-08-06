@@ -16,14 +16,15 @@ userController.login = (req, res, next) => {
     // console.log(password, user[0].password);
     if (password === user[0].password) {
       console.log('corect password');
-      res.locals.account = user[0];
+      res.locals.account = user;
+      res.locals.username = username;
       res.locals.isOrg = user[0].isOrg;
       return next();
     }
     else return next({message: 'incorrect username or password'});
   })
   .catch(err => {
-    return next(err);
+    return next({message: 'incorrect username'});
   })
 }
 
@@ -34,8 +35,8 @@ userController.signup = (req, res, next) => {
   console.log('in usercontroller signup');
   Account.create({username, password, email, isOrg})
   .then((user) => {
-    res.locals.body = req.body;
-    console.log(user);
+    res.locals.user = user;
+    console.log('user is', user);
     return next();
   })
   .catch(err => {

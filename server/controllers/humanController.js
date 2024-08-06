@@ -24,33 +24,24 @@ humanController.signup = (req, res, next) => {
 humanController.login = async (req, res, next)=>{
     console.log('in humancontroller login');
     try{
-        const { username } = req.query //NEW
-        // const {username} = res.locals.account;
-        // console.log('account stuff:', username);
-        // if(!username || !password){
-        //     return restatus(400).json({
-        //         error: 'wrong user'
-        //     })
-        // }
-        //const match = await bcrypt.compare(password,user.password); <-swap after bcyrpt applied later O_O
-        await apiController.getGeoLocation(req, res, next, async (err) =>{
-          if(err)return next (err);
-          const {lat, lng} = req.geolocation;
+      const username = res.locals.username;
+      // await apiController.getGeoLocation(req, res, next, async (err) =>{
+      //   if(err)return next (err);
+      //   const {lat, lng} = req.geolocation;
 
-        const human = await Human.findOne({username});
-        if(!human){
-            return res.status(400).json({
-                error: 'human not found'
-            });
-        }
-        human.location = `Lat : ${lat}, Lng: ${lng}`;
-        await human.save();
+      const human = await Human.findOne({username});
+      if(!human){
+        return res.status(400).json({
+          error: 'human not found'
+        });
+      }
+        // human.location = `Lat : ${lat}, Lng: ${lng}`;
+        // await human.save();
 
-
-           res.locals.user = human;
-           return next();
-      });
-    } catch(err){
+      res.locals.user = human;
+      return next();
+      }
+     catch(err){
       return next({
           log: 'humanctonroller.loign error ',
           message: { err: 'Error in human controler login'}
