@@ -23,6 +23,17 @@ router.get('/', shelterController.getShelters, (req, res) => {
   return res.status(200).json(res.locals.shelter)
 })
 
+router.get('/getPetDB', shelterController.getPetDB, (req, res) => {
+  res.status(200).json(res.locals.petDB);
+});
+
+router.get('/:id', 
+  shelterController.load,
+  (req, res) => {
+  res.status(200).json(res.locals)
+})
+
+
 // //generic login on landing page
 // router.post('/signup', 
 //     upload.single('picture'),

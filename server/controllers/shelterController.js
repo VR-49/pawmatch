@@ -23,6 +23,35 @@ shelterController.getShelters = (req, res, next) => {
     });
 }
 
+shelterController.getPetDB = (req, res, next) => {
+  Pet.find({})
+  .then((found) => {
+    res.locals.petDB = found;
+    next();
+  })
+  .catch(error => {
+    const err = {
+      log: 'petController.getDB grab data issue: ' + error,
+      status: 500,
+      message: { err: 'DB grab data error' }
+    };
+    next(err);
+  })
+};
+
+shelterController.load = async (req, res, next) => {
+  console.log('in pet load');
+  try {
+    const petId = req.params.id;
+    const pet = await Pet.findById(petId);
+    console.log(pet);
+    res.locals.pet = pet;
+    return next();
+  }
+  catch(err){
+    return next({log: "error in petload: couldn't find pet"})
+  }
+}
 // shelterController.signup = (req, res, next) => {
 //   //files are in req.file NOT body
 //   // console.log('file', req.file)

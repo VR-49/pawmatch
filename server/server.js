@@ -26,7 +26,7 @@ app.use('/api/images', express.static(path.resolve(__dirname, './models/images')
 app.use('/api/auth', userRouter);// make user after chatting with TIM
 // app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
-// app.use('/api/pet', petRouter)
+app.use('/api/pet', shelterRouter);
 //app.use('/api', apiRoutes);
 
 /**
