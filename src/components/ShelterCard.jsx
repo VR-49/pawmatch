@@ -1,27 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ShelterAnimalCard from './ShelterAnimalCard';
-//pass down props from fetched data in container
-const ShelterCard = ({ id, username, location, orgName, bio, pets }) => {
+
+// deconstructed, mapped props from shelter data from HumanContainer
+const ShelterCard = ({ id, username, location, orgName, bio, petIds }) => {
   const navigate = useNavigate();
-  // const handleView = async () => {
-  //   try {
-  //     const response = await fetch()
-  //   }
-  // }
+
+  // navigates to new endpoint
+  // passes the state of petIds when called by useLocation hook
   const handleView = () => {
-    navigate('/shelter-animals', { state: { pets } });
+    navigate('/shelter-animals', { state: { petIds } });
   };
 
   return (
     <div className='shelter-card-container'>
       <h1>{orgName}</h1>
-      <p>{username}</p>
       <p>{location}</p>
       <p>{bio}</p>
-      {/* {pets.map(petId => {
-        return <p key={petId}>{petId}</p>
-      })} */}
       <button onClick={handleView} className='view-shelter-btn'>
         View Shelter
       </button>
