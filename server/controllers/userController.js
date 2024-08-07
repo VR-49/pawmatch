@@ -48,11 +48,20 @@ userController.signup = (req, res, next) => {
     return next();
   })
   .catch(err => {
-    const error = {
-      log: 'userController.delete error: ' + err,
-      message:{err: 'Error in userController.delete'}
-    };
-    next(error);
+    if(err.code === 11000){
+      const error = {
+        log: 'userController.signup username already exists: ' + err,
+        message:{err: 'Username already exists'}
+      };
+      next(error);
+    }
+    else{
+      const error = {
+        log: 'userController.signup error: ' + err,
+        message:{err: 'Signup Failed'}
+      };
+      next(error);
+    }
   });
 }
 
