@@ -1,8 +1,17 @@
 import React from "react";
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from "react-router-dom";
 import CreateAccount from "../../containers/CreateAccount";
 import '@testing-library/jest-dom';
+
+// Helper function to simulate all the possible user actions
+const fillFormAndSubmit = () => {
+  fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'test@test.com' } });
+  fireEvent.change(screen.getByLabelText('Username:'), { target: { value: 'Test' } });
+  fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'testpassword' } });
+  fireEvent.click(screen.getByLabelText('Are you an organization?'));
+  fireEvent.click(screen.getByRole('button', { name: 'Sign Up' }));
+};
 
 describe('CreateAccount Component', () => {
   beforeEach(() => {
@@ -28,11 +37,8 @@ describe('CreateAccount Component', () => {
   });
 
   it('handles input changes correctly', () => {
-    // Simulate an event occuring for each user action  
-    fireEvent.change(screen.getByLabelText('Email:'), { target: { value: 'test@test.com' } });
-    fireEvent.change(screen.getByLabelText('Username:'), { target: { value: 'Test' } });
-    fireEvent.change(screen.getByLabelText('Password:'), { target: { value: 'testpassword' } });
-    fireEvent.click(screen.getByLabelText('Are you an organization?'));
+    // Simulate all user actions
+    fillFormAndSubmit();
 
     // Confirm that each input value is correct
     expect(screen.getByLabelText('Email:')).toHaveValue('test@test.com');
@@ -41,5 +47,32 @@ describe('CreateAccount Component', () => {
     expect(screen.getByLabelText('Are you an organization?')).toBeChecked();
   });
 
+  it('sends the POST request successfully', async () => {
+    // Create a function that mocks fetch
+    const mockFetch = jest.fn(() => 
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({}),
+      })
+    );
 
+    // Override the global fetch function so we don't unintentionally use it
+    global.fetch = mockFetch;
+
+    // Simulate an event occuring for each user action
+    fillFormAndSubmit();
+
+    // Check that the POST request is sent to the correct endpoint with the correct method, headers, and body
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+    expect(mockFetch).toHaveBeenCalledWith('/api/auth/signup', expect.objectContaining({
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        username: 'Test',
+        password: 'testpassword',
+        email: 'test@test.com',
+        isOrg: true,
+      }),
+    }));
+  });
 });
