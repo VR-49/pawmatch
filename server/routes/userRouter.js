@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
 router.post('/signup', 
     userController.signup,
     (req, res) => {
-      return res.status(200).json(res.locals.body);
+      return res.status(200).json(res.locals.user);
       //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
 });
 
@@ -55,7 +55,8 @@ router.get('/getDB', userController.getDB, (req, res) => {
 router.delete('/delete/:username',
   userController.delete,
   (req,res)=>{
-    return res.status(200).json(res.locals);
+    //console.log(res.locals.deleteMsg);
+    return res.status(200).json(res.locals.deleteMsg);
 });
 
 module.exports = router;
