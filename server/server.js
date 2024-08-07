@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const path = require('path')
+const path = require('path');
 const port = 3000; //or whatever port ure using
 const app = express();
 
@@ -19,14 +19,15 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 //serve route to images
-app.use('/api/images', express.static(path.resolve(__dirname, './models/images')))
-
-
+app.use(
+  '/api/images',
+  express.static(path.resolve(__dirname, './models/images'))
+);
 
 app.use('/api/auth', userRouter);
 app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
-app.use('/api/pet', petRouter)
+app.use('/api/pet', petRouter);
 app.use('/api', apiRoutes);
 
 /**
@@ -36,10 +37,9 @@ app.use('/', (req, res) => {
   res.status(404).send('URL Not Found');
 });
 
-    
-    /**
-     * Global error handler
-     */
+/**
+ * Global error handler
+ */
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).send({ error: err });
