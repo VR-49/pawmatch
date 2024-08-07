@@ -1,11 +1,16 @@
 const Account = require('../models/models');
+const jwt = require('jsonwebtoken');
 
 cookieController = {};
 
 cookieController.setCookie = (req, res, next) => {
-  res.cookie('id: ', Math.floor(Math.random() * 100));
-  console.log('in the cookie controller');
-  return next();
+  const payload = {
+    username: res.locals.username
+  };
+  const token = jwt.sign(payload, 'a_shitty_secret', {
+    expiresIn: '30s',
+  });
+  res.cookie(token);
 };
 
 // cookieController.setSSIDCookie = (req, res, next) => {

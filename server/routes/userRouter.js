@@ -7,8 +7,7 @@ const User = require('../models/models.js');
 const userController = require('../controllers/userController.js');
 const shelterController = require('../controllers/shelterController.js');
 const humanController = require('../controllers/humanController.js');
-
-const cookieController = require('../cookies/cookieController');
+const cookieController = require('../controllers/cookieController.js');
 
 const router = express.Router();
 
@@ -31,7 +30,7 @@ router.get('/', (req, res) => {
 });
 
 //generic login on landing page
-router.post('/signup', userController.signup, (req, res) => {
+router.post('/signup', userController.signup, cookieController.setCookie, (req, res) => {
   return res.status(200).json(res.locals.user);
   //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
 });
