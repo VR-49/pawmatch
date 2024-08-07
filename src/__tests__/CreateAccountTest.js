@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from "react-router-dom";
-import CreateAccount from "../../containers/CreateAccount";
+import CreateAccount from "../containers/CreateAccount";
 import '@testing-library/jest-dom';
 
 // Helper function to simulate all the possible user actions
