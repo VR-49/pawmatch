@@ -43,7 +43,7 @@ userController.signup = (req, res, next) => {
   //console.log('in usercontroller signup');
   Account.create({username, password, email, isOrg})
   .then(user => {
-    res.locals.user = user;
+    res.locals.user = user.username;
     console.log('user is', user);
     return next();
   })
@@ -51,6 +51,7 @@ userController.signup = (req, res, next) => {
     if(err.code === 11000){
       const error = {
         log: 'userController.signup username already exists: ' + err,
+        status: 400,
         message:{err: 'Username already exists'}
       };
       next(error);
@@ -69,7 +70,7 @@ userController.delete = async (req,res,next) =>{
   //console.log('in user delete');
   try {
     const {username} = req.params;
-    const user = await Account.findOne({username})
+    //const user = await Account.findOne({username})
     //const starredPets = user.starredPets;
 
     // for(let i = 0; i < starredPets.length; i++) {
@@ -80,9 +81,20 @@ userController.delete = async (req,res,next) =>{
       //   {$pull: {flagUsers: user._id}}
       // console.log('afterr find pet and delete')
       // );
-    await Account.deleteOne({username});
-
+    await Account.deleteOne({username})
+    .then(user => {
+      res.locals.deleteMsg = user;
+      //console.log(user.deletedCount);
+    })
+    .catch(error => {
+      return next({
+        log: 'userController.delete error: ' + error,
+        status: 404,
+        message:{err: 'Error in userController.delete'}
+      });
+    })
     return next();
+
   } catch(error){
       return next({
         log: 'userController.delete error',
