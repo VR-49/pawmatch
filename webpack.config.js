@@ -12,6 +12,7 @@ output: {
     filename: "bundle.js",
     publicPath: '/'
 }, 
+mode: 'development',
 plugins: [htmlPlugin],
 module: {
   rules: [
