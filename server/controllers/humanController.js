@@ -5,6 +5,23 @@ const { Account, Pet, Human, Shelter } = require('../models/models.js');
 const apiController = require('./apiController');
 
 const humanController = {};
+
+humanController.getDB = (req, res, next) => {
+  Human.find({})
+    .then((found) => {
+      res.locals.humanDB = found;
+      next();
+    })
+    .catch((error) => {
+      const err = {
+        log: 'humanController.getDB grab data issue: ' + error,
+        status: 500,
+        message: { err: 'DB grab data error' },
+      };
+      next(err);
+    });
+};
+
 humanController.signup = (req, res, next) => {
   const { username, location, firstName, lastName, bio, picture } = req.body;
   console.log('in humancontroller signup');

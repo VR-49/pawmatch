@@ -25,6 +25,10 @@ router.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../../src/index.html'));
 });
 
+router.get('/getDB', humanController.getDB, (req, res) => {
+  res.status(200).json(res.locals.humanDB);
+});
+
 //updating the bio page of human
 router.post(
   '/signup',
@@ -46,13 +50,17 @@ router.get('/login', humanController.login, (req, res) => {
 //     return res.status(200).json(res.locals);
 // });
 
-router.post('/starpet', petController.starPet, (req, res) => {
-  return res.status(200).json(res.locals);
-});
+// router.post('/starpet',
+//   petController.starPet,
+//   (req, res) => {
+//     return res.status(200).json(res.locals);
+// });
 
-router.delete('/unstarpet', petController.unstarPet, (req, res) => {
-  return res.status(200).json(res.locals);
-});
+// router.delete('/unstarpet',
+//   petController.unstarPet,
+//   (req, res) => {
+//     return res.status(200).json(res.locals);
+// });
 
 router.delete('/delete/:username', humanController.delete, (req, res) => {
   return res.status(200).json(res.locals);
