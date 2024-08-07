@@ -11,6 +11,23 @@ const petController = {};
 // personality: String,
 // picture: String,
 // flagUsers: Object
+
+petController.getDB = (req, res, next) => {
+  Pet.find({})
+  .then((found) => {
+    res.locals.petDB = found;
+    next();
+  })
+  .catch(error => {
+    const err = {
+      log: 'petController.getDB grab data issue: ' + error,
+      status: 500,
+      message: { err: 'DB grab data error' }
+    };
+    next(err);
+  })
+};
+
 petController.load = async (req, res, next) => {
   console.log('in pet load');
   try {

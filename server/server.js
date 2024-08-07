@@ -24,25 +24,33 @@ app.use(
   express.static(path.resolve(__dirname, './models/images'))
 );
 
-app.use('/api/auth', userRouter);
-app.use('/api/human', humanRouter);
+app.use('/api/auth', userRouter); // make user after chatting with TIM
+// app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
-app.use('/api/pet', petRouter);
-app.use('/api', apiRoutes);
+app.use('/api/pet', shelterRouter);
+//app.use('/api', apiRoutes);
 
 /**
  * 404 handler
  */
-app.use('/', (req, res) => {
+app.use((req, res) => {
   res.status(404).send('URL Not Found');
 });
 
 /**
  * Global error handler
  */
+
+const defaultErr = {
+  log: 'Express error handler caught unknown middleware error',
+  status: 500,
+  message: { err: 'An error occurred' },
+};
+
 app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).send({ error: err });
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  res.status(errorObj.status).json(errorObj.message);
 });
 
 app.listen(PORT, () => {
