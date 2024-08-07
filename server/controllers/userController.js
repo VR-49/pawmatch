@@ -51,6 +51,7 @@ userController.signup = (req, res, next) => {
     if(err.code === 11000){
       const error = {
         log: 'userController.signup username already exists: ' + err,
+        status: 400,
         message:{err: 'Username already exists'}
       };
       next(error);
