@@ -7,7 +7,7 @@ import NavBar from './components/NavBar';
 import HumanContainer from './containers/HumanContainer';
 import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom"
 
-import './styles/style.css';
+import './styles/styles.scss';
 import ShelterAnimalCard from './components/ShelterAnimalCard';
 
 
