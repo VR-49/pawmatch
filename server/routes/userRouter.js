@@ -29,13 +29,17 @@ router.get('/', (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../../src/index.html'));
 });
 
+router.get('/verify', cookieController.verifyAuthCookie, (req, res) => {
+  res.status(200).json()
+})
+
 //generic login on landing page
-router.post('/signup', userController.signup, cookieController.setCookie, (req, res) => {
+router.post('/signup', userController.signup, cookieController.setAuthCookie, (req, res) => {
   return res.status(200).json(res.locals.user);
   //inside the client side, after the fetch request we .then(data => if data.isOrg then fetch post shelter request else fetch post human request)
 });
 
-router.post('/login', userController.login, (req, res) => {
+router.post('/login', userController.login, cookieController.setAuthCookie, (req, res) => {
   //console.log(res.locals);
   return res.status(200).json(res.locals);
 });

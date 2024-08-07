@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 cookieController = {};
 
-cookieController.setCookie = (req, res, next) => {
+cookieController.setAuthCookie = (req, res, next) => {
   const payload = {
     username: res.locals.username
   };
@@ -11,13 +11,12 @@ cookieController.setCookie = (req, res, next) => {
     expiresIn: '30s',
   });
   res.cookie(token);
+  next();
 };
 
-// cookieController.setSSIDCookie = (req, res, next) => {
-//     // write code here
-//       console.log('inside setSSID ', res.locals.id);
-//       res.cookie("ssid", res.locals.id, {httpOnly: true});
-//       next();
-//   };
+cookieController.verifyAuthCookie = (req, res, next) => {
+  const token = req.header('Authorization')?.split(' ')[1];
+  console.log(token);
+};
 
 module.exports = cookieController;
