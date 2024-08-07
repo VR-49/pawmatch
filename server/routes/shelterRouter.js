@@ -27,6 +27,10 @@ router.get('/getPetDB', shelterController.getPetDB, (req, res) => {
   res.status(200).json(res.locals.petDB);
 });
 
+router.post('/addShelter', shelterController.addShelter, (req, res) => {
+  res.status(200).json(res.locals.shelterDB);
+});
+
 router.get('/:id', shelterController.load, (req, res) => {
   res.status(200).json(res.locals);
 });
