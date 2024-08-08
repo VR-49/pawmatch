@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HumanContainer from './HumanContainer';
 
-const LoginContainer = ({ setAppUsername }) => {
+const LoginContainer = ({ setAppUsername, setAuth, auth }) => {
   const [humanUserData, setHumanUserData] = useState(null);
   //const [orgUserData, setOrgUserData] = useState(null);
   // const [isHuman, setIsHuman] = useState(false);
@@ -15,8 +15,7 @@ const LoginContainer = ({ setAppUsername }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-      props.setAuth('valid');
-    //console.log(props.auth);
+      setAuth('valid');
   }, [humanUserData]);
 
   const handleSubmit = async (event) => {
@@ -43,9 +42,9 @@ const LoginContainer = ({ setAppUsername }) => {
           }
           if (userResponse) {
             console.log('userresponse', userResponse);
-            if (userResponse === 'authorized') {
+            if (userResponse.state === 'authorized') {
               setAppUsername(userResponse.username);
-              console.log('ishuman');
+              //console.log('ishuman');
               setHumanUserData('authorized');
               navigate('/human-dashboard');
             } 
@@ -69,6 +68,7 @@ const LoginContainer = ({ setAppUsername }) => {
       <h1>PawMatch 🐾</h1>
       <h4>Login 🐶🐱</h4>
       {loginIssue && <p>{loginIssue}</p>}
+      {auth === 'expired' && <p>Session Expired</p>}
       <form className='login-form' onSubmit={handleSubmit}>
         <div>
           <label>

@@ -41,7 +41,7 @@ router.post('/signup', userController.signup, cookieController.setAuthCookie, (r
 
 router.post('/login', userController.login, cookieController.setAuthCookie, (req, res) => {
   //console.log(res.locals);
-  return res.status(200).json('authorized');
+  return res.status(200).json(res.locals.result);
 });
 
 router.get('/getDB', userController.getDB, (req, res) => {

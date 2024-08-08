@@ -10,7 +10,7 @@ const NavBar = ({ username }) => {
     <nav className="nav">
       <ul>
         <li>
-          <Link to="/home">Home</Link>
+          <Link to="/human-dashboard">Home</Link>
         </li>
         <li>
           <Link to="/logout">Logout</Link>

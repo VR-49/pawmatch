@@ -14,7 +14,7 @@ const ProtectedRoute = (props) => {
             props.setAuth(response);
         }
         else if(response === 'expired'){
-            //console.log('expired');
+            console.log('expired');
             props.setAuth(response);
         }
         else if(response === 'invalid'){
@@ -27,7 +27,7 @@ const ProtectedRoute = (props) => {
     });
     console.log(props.auth);
     if(props.auth === 'valid'){
-        return <Navigate to="/profile" />;
+        return props.element;
     }
     else if(props.auth === 'expired'){
         return <Navigate to="/login" />;

@@ -14,7 +14,7 @@ import ShelterAnimalCard from './components/ShelterAnimalCard';
 
 
 const App = () => {
-  const [auth, setAuth] = useState();
+  const [auth, setAuth] = useState('');
   const [username, setUsername] = useState(null);
 
   console.log('App username:', username);

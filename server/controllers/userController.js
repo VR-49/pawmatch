@@ -18,6 +18,11 @@ userController.login = (req, res, next) => {
         res.locals.account = user;
         res.locals.username = username;
         res.locals.isOrg = user[0].isOrg;
+        const result = {
+          username: username,
+          state: 'authorized'
+        };
+        res.locals.result = result;
         return next();
       } else return next({ 
         log: 'incorrect password',
