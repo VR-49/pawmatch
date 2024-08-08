@@ -10,7 +10,7 @@ import ProfileContainer from './containers/ProfileContainer';
 
 import './styles/style.css';
 import ShelterAnimalCard from './components/ShelterAnimalCard';
-
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   useEffect(() => {
@@ -30,7 +30,7 @@ const App = () => {
         <Route path="/human-dashboard" element={<HumanContainer />} />
         <Route path="/org-dashboard" element={<ShelterContainer />} />
         <Route path="/shelter-animals" element={<ShelterAnimalCard />} />
-        {/* <Route path="/profile" element={<ProfileContainer />} /> */}
+        <ProtectedRoute path="/profile" element={<ProfileContainer />} />
       </Routes>
     </>
 
