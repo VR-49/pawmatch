@@ -67,4 +67,8 @@ router.delete('/delete/:username', userController.delete, (req, res) => {
   return res.status(200).json(res.locals.deleteMsg);
 });
 
+router.delete('/deleteFavorite', userController.deleteFavorite, (req, res) => {
+  return res.status(200).json(res.locals.message);
+});
+
 module.exports = router;

@@ -72,6 +72,49 @@ userController.signup = (req, res, next) => {
     });
 };
 
+userController.delete = async (req, res, next) => {
+  //console.log('in user delete');
+  try {
+    const { username } = req.params;
+    //const user = await Account.findOne({username})
+    //const starredPets = user.starredPets;
+
+    // for(let i = 0; i < starredPets.length; i++) {
+    //   await Pet.updateOne( {_id: starredPets[i]}, {$pull: {flagUsers: user.id}});
+    // }
+    // await Pet.updateMany(
+    //   {flagUsers:user._id},
+    //   {$pull: {flagUsers: user._id}}
+    // console.log('afterr find pet and delete')
+    // );
+    await Account.deleteOne({ username })
+      .then((user) => {
+        res.locals.deleteMsg = user;
+        //console.log(user.deletedCount);
+      })
+      .catch((error) => {
+        return next({
+          log: 'userController.delete error: ' + error,
+          status: 404,
+          message: { err: 'Error in userController.delete' },
+        });
+      });
+    return next();
+  } catch (error) {
+    return next({
+      log: 'userController.delete error',
+      message: { err: 'Error in userController.delete' },
+    });
+  }
+};
+
+userController.getDB = (req, res, next) => {
+  Account.find({}).then((data) => {
+    res.locals.userDB = data;
+    return next();
+  });
+};
+
 userController.favorite = (req, res, next) => {
   //console.log('inside of signup middleware: ');
   const { username, favorite } = req.body;
@@ -121,47 +164,29 @@ userController.getFavorites = (req, res, next) => {
     });
 };
 
-userController.getDB = (req, res, next) => {
-  Account.find({}).then((data) => {
-    res.locals.userDB = data;
-    return next();
-  });
-};
+userController.deleteFavorite = (req, res, next) => {
+  const { username, _id } = req.body;
+  console.log('req.body: ', req.body);
 
-userController.delete = async (req, res, next) => {
-  //console.log('in user delete');
-  try {
-    const { username } = req.params;
-    //const user = await Account.findOne({username})
-    //const starredPets = user.starredPets;
-
-    // for(let i = 0; i < starredPets.length; i++) {
-    //   await Pet.updateOne( {_id: starredPets[i]}, {$pull: {flagUsers: user.id}});
-    // }
-    // await Pet.updateMany(
-    //   {flagUsers:user._id},
-    //   {$pull: {flagUsers: user._id}}
-    // console.log('afterr find pet and delete')
-    // );
-    await Account.deleteOne({ username })
-      .then((user) => {
-        res.locals.deleteMsg = user;
-        //console.log(user.deletedCount);
-      })
-      .catch((error) => {
-        return next({
-          log: 'userController.delete error: ' + error,
-          status: 404,
-          message: { err: 'Error in userController.delete' },
-        });
+  Account.findOne({ username: username })
+    .then((user) => {
+      user.favorites = user.favorites.filter(
+        (fav) => fav.pet._id.toString() !== _id.toString()
+      );
+      return user.save();
+    })
+    .then(() => {
+      res.locals.message = _id + ' has been deleted';
+      console.log(res.locals);
+      return next();
+    })
+    .catch((error) => {
+      return next({
+        log: 'userController.deleteFavorite error: ' + error,
+        status: 404,
+        message: { err: 'Error in userController.deleteFavorite' },
       });
-    return next();
-  } catch (error) {
-    return next({
-      log: 'userController.delete error',
-      message: { err: 'Error in userController.delete' },
     });
-  }
 };
 
 module.exports = userController;
