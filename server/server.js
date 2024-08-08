@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const path = require('path')
-const port = 3000; //or whatever port ure using
+const path = require('path');
+// const port = 3000; //or whatever port ure using
 const app = express();
 
 const PORT = 3000;
@@ -19,11 +19,12 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 //serve route to images
-app.use('/api/images', express.static(path.resolve(__dirname, './models/images')))
+app.use(
+  '/api/images',
+  express.static(path.resolve(__dirname, './models/images'))
+);
 
-
-
-app.use('/api/auth', userRouter);// make user after chatting with TIM
+app.use('/api/auth', userRouter); // make user after chatting with TIM
 // app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
 app.use('/api/pet', shelterRouter);
@@ -36,7 +37,6 @@ app.use((req, res) => {
   res.status(404).send('URL Not Found');
 });
 
-    
 /**
  * Global error handler
  */
@@ -44,7 +44,7 @@ app.use((req, res) => {
 const defaultErr = {
   log: 'Express error handler caught unknown middleware error',
   status: 500,
-  message: { err: 'An error occurred' }
+  message: { err: 'An error occurred' },
 };
 
 app.use((err, req, res, next) => {
