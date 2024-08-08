@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MONGO_URI = 'mongodb+srv://joyceoh:zdYaVmVpYFXwq02H@cluster0.ypurzbj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGO_URI = 'mongodb+srv://dylankinsella7:zvDozndWFa1QKaZ4@cluster0.synwgk7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(MONGO_URI, {
   dbName: 'pawmatch'
