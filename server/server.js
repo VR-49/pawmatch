@@ -12,6 +12,7 @@ const humanRouter = require('./routes/humanRouter.js');
 const shelterRouter = require('./routes/shelterRouter.js');
 const petRouter = require('./routes/petRouter.js');
 const apiRoutes = require('./routes/apiRoutes.js');
+const profileRouter = require('./routes/profileRoutes.js');
 
 // app.use(cors());
 app.use(express.json());
@@ -28,7 +29,8 @@ app.use('/api/auth', userRouter); // make user after chatting with TIM
 // app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
 app.use('/api/pet', shelterRouter);
-// app.use('/api', apiRoutes);
+// app.use('/api/profile', profileRouter);
+//app.use('/api', apiRoutes);
 
 /**
  * 404 handler
