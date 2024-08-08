@@ -24,8 +24,9 @@ module: {
       }
     },
     {
-      test: /\.css$/i,
-      use: ["style-loader", "css-loader"],
+      test: /.(css|scss)$/,
+      exclude: [/node_modules/, /client\/stylesheets\/modules/],
+      use: ["style-loader", "css-loader", "sass-loader"],
     },
     {
       test: /\.(png|jpg|gif|woff|woff2|eot|ttf|svg|ico)$/,
