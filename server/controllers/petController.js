@@ -57,7 +57,7 @@ petController.getAnimals = async (req, res, next) => {
 //called through the shelter router => will pass in shelterId
 petController.createPet = async (req, res, next) => {
   // console.log('in add pet');
-  console.log('picture:', req.file.filename);
+  //console.log('picture:', req.file.filename);
   // console.log('req.body', req.body)
   try {
     //create newPet object
@@ -72,6 +72,7 @@ petController.createPet = async (req, res, next) => {
       height,
       personality,
       shelterId,
+      fileName
     } = req.body;
     const stats = {
       age: typeof age === 'number' && age > 0 ? age : null,
@@ -100,7 +101,7 @@ petController.createPet = async (req, res, next) => {
       stats,
       personality,
       about,
-      picture: req.file.filename,
+      picture: fileName,
       flagUsers: [],
       //   stats: typeof stats === 'object' && stats !== null ? stats : {},
     });
@@ -111,8 +112,8 @@ petController.createPet = async (req, res, next) => {
       { _id: shelterId },
       { $push: { pet_Ids: newPet.id } }
     );
-
-    console.log(newPet, shelter);
+    res.locals.pet = newPet;
+    //console.log(newPet, shelter);
     return next();
   } catch (err) {
     return next({
