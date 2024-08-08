@@ -18,6 +18,11 @@ const accountSchema = new Schema({
   email: { type: String, required: true },
   isOrg: { type: Boolean, required: true },
   favorites: [Object],
+  firstName: { type: String, default: '' },
+  lastName: { type: String, default: '' },
+  location: { type: String, default: '' },
+  bio: { type: String, default: '' },
+  photo: { type: String, default: '' }
 });
 
 const humanSchema = new Schema({

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HumanContainer from './HumanContainer';
 
-const LoginContainer = () => {
+const LoginContainer = ({ setAppUsername }) => {
   const [humanUserData, setHumanUserData] = useState(null);
   const [orgUserData, setOrgUserData] = useState(null);
   // const [isHuman, setIsHuman] = useState(false);
@@ -36,6 +36,7 @@ const LoginContainer = () => {
           }
           if (userResponse) {
             console.log('userresponse', userResponse);
+            setAppUsername(userResponse.username);
             if (userResponse.isOrg) {
               setOrgUserData(userResponse.shelter);
               navigate('/org-dashboard');

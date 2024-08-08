@@ -4,6 +4,7 @@ const path = require('path');
 const multer = require('multer');
 const profileController = require('../controllers/profileController');
 
+// Set the destinate and filename that will be used for Multer
 const Storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.resolve(__dirname, '../models/images'));
