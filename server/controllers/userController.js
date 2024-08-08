@@ -19,10 +19,15 @@ userController.login = (req, res, next) => {
         res.locals.username = username;
         res.locals.isOrg = user[0].isOrg;
         return next();
-      } else return next({ message: 'incorrect username or password' });
+      } else return next({ 
+        log: 'incorrect username or password',
+        status: 400,
+        message: 'incorrect username or password' });
     })
     .catch((err) => {
-      return next({ message: 'incorrect username' });
+      return next({ 
+        log: 'Account not found',
+        message: 'Account not found' });
     });
 };
 

@@ -23,8 +23,33 @@ cookieController.setAuthCookie = (req, res, next) => {
 };
 
 cookieController.verifyAuthCookie = (req, res, next) => {
-  const token = req.header('Authorization')?.split(' ')[1];
-  console.log(token);
+  try{
+    //console.log(req.cookies.jwt);
+    jwt.verify(req.cookies.jwt, 'a_shitty_secret');
+    console.log('valid token');
+    res.locals.jwt = 'valid';
+    next();
+  }
+  catch (err) {
+    //console.log(err);
+    if(err.name === 'TokenExpiredError'){
+      const error = {
+        log: 'cookieController.verifyAuthCookie token expired: ',
+        status: 401,
+        message: 'expired'
+      };
+      next(error);
+    }
+    else{
+      const error = {
+        log: 'cookieController.verifyAuthCookie invalid token or missing token: ',
+        status: 401,
+        message: 'invalid'
+      };
+      next(error);
+    }
+    //console.log(err);
+  }
 };
 
 module.exports = cookieController;

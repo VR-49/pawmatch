@@ -2,19 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HumanContainer from './HumanContainer';
 
-const LoginContainer = () => {
+const LoginContainer = (props) => {
   const [humanUserData, setHumanUserData] = useState(null);
-  const [orgUserData, setOrgUserData] = useState(null);
+  //const [orgUserData, setOrgUserData] = useState(null);
   // const [isHuman, setIsHuman] = useState(false);
   // const [isOrg, setIsOrg] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    props.setAuth('valid');
+    //console.log(props.auth);
+  }, [humanUserData]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     console.log('Login submitted with:', username, password);
     try {
       const userResponse = fetch('/api/auth/login', {
@@ -36,23 +42,18 @@ const LoginContainer = () => {
           }
           if (userResponse) {
             console.log('userresponse', userResponse);
-            if (userResponse.isOrg) {
-              setOrgUserData(userResponse.shelter);
-              navigate('/org-dashboard');
-            } else {
+            if (userResponse === 'authorized') {
               console.log('ishuman');
               setHumanUserData(userResponse.human);
               navigate('/human-dashboard');
-            }
+            } 
           }
         })
         .catch((err) => err);
     } catch (error) {
       console.error('Error:', error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
+    } 
+
   };
 
   return (

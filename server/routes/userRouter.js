@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/verify', cookieController.verifyAuthCookie, (req, res) => {
-  res.status(200).json()
+  res.status(200).json(res.locals.jwt);
 })
 
 //generic login on landing page
@@ -41,7 +41,7 @@ router.post('/signup', userController.signup, cookieController.setAuthCookie, (r
 
 router.post('/login', userController.login, cookieController.setAuthCookie, (req, res) => {
   //console.log(res.locals);
-  return res.status(200).json(res.locals);
+  return res.status(200).json('authorized');
 });
 
 router.get('/getDB', userController.getDB, (req, res) => {
