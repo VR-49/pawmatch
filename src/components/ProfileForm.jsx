@@ -17,7 +17,7 @@ const ProfileForm = ({ profile, handleChange, handlePhotoChange, handleSubmit })
         <input 
           type="text"
           name="lastName"
-          value={profile.LastName}
+          value={profile.lastName}
           onChange={handleChange} 
         />
       </label>

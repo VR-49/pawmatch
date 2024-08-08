@@ -29,7 +29,7 @@ app.use('/api/auth', userRouter); // make user after chatting with TIM
 // app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
 app.use('/api/pet', shelterRouter);
-app.use('/api/profile', profileRouter);
+app.use('/api/profile', profileRouter); // routes for the profile page
 //app.use('/api', apiRoutes);
 
 /**
