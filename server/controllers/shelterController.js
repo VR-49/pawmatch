@@ -52,24 +52,27 @@ shelterController.load = async (req, res, next) => {
     return next({log: "error in petload: couldn't find pet"})
   }
 }
-// shelterController.signup = (req, res, next) => {
-//   //files are in req.file NOT body
-//   // console.log('file', req.file)
-//   const { username, location, orgName, bio,  picture } = req.body;
-//   console.log('in sheltercontroller signup');
+shelterController.addShelter = (req, res, next) => {
+  //files are in req.file NOT body
+  // console.log('file', req.file)
+  const { username, location, orgName, bio } = req.body;
+  //console.log('in sheltercontroller signup');
 
-//   //in order to pull up images take the image name and find in images
-//   Shelter.create({username, location, orgName, bio, picture: req.file.filename, pet_Ids: []})
-//   .then((shelter) => {
-//     res.locals.shelter = shelter;
-//     console.log(shelter);
-//     return next();
-//   })
-//   .catch(err => {
-//     err.message = 'invalid paramters in sheltercontroller';
-//     return next(err);
-//   })
-// };
+  //in order to pull up images take the image name and find in images
+  Shelter.create({username, location, orgName, bio, pet_Ids: []})
+  .then((shelter) => {
+    res.locals.shelterDB = shelter;
+    console.log(shelter);
+    return next();
+  })
+  .catch(error => {
+    const err = {
+      log: 'shelterController.addShelters invalid data issue: ' + error,
+      status: 400,
+      message: { err: 'Invalid Response' }
+    };
+  })
+};
   
 // shelterController.login = async (req, res, next) => {
 //   console.log('in sheltercontroller login');
