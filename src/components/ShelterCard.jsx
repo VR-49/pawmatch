@@ -12,13 +12,13 @@ const ShelterCard = ({ id, username, location, orgName, bio, petIds }) => {
   };
 
   return (
-    <div className='shelter-card-container'>
+    <div onClick={ handleView } className='shelter-card-container'>
       <h1>{orgName}</h1>
       <p>{location}</p>
       <p>{bio}</p>
-      <button onClick={handleView} className='view-shelter-btn'>
+      {/* <button onClick={handleView} className='view-shelter-btn'>
         View Shelter
-      </button>
+      </button> */}
     </div>
   );
 };
