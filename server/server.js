@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 // const port = 3000; //or whatever port ure using
 const app = express();
@@ -16,6 +17,7 @@ const profileRouter = require('./routes/profileRoutes.js');
 
 // app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,7 +31,7 @@ app.use('/api/auth', userRouter); // make user after chatting with TIM
 // app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
 app.use('/api/pet', shelterRouter);
-// app.use('/api/profile', profileRouter);
+app.use('/api/profile', profileRouter); // routes for the profile page
 //app.use('/api', apiRoutes);
 
 /**
