@@ -70,11 +70,13 @@ const ShelterAnimalCard = () => {
             src={getImgSrc(petObj.pet.picture)}
             alt={`Furry Friend ${petObj.pet.name}`}
           ></img>
+          <div className='animal-description' >
           <p>Name: {petObj.pet.name || ''}</p>
           <p>Species: {petObj.pet.species || ''}</p>
           <p>Breed: {petObj.pet.breed || ''}</p>
           <p>Personality: {petObj.pet.personality || ''}</p>
           <p>Stats: {petObj.pet.stats.age || ''}</p>
+          </div>
         </div>
       ))
     );
@@ -84,13 +86,15 @@ const ShelterAnimalCard = () => {
   return (
     <div className='shelter-animal-card-container'>
       <h1>Shelter Animals</h1>
-      <button className='button' onClick={prevSlide}>
-        Prev
+      <div class='prevButton'>
+      <button className='button' onClick={prevSlide}> &lt;
       </button>
+      </div>
       {petsArray[activeIndex]}
-      <button className='button' onClick={nextSlide}>
-        Next
+      <div class='nextButton'>
+      <button className='button' onClick={nextSlide}> &gt;
       </button>
+      </div>
     </div>
   );
 };
