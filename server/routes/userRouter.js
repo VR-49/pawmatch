@@ -44,6 +44,15 @@ router.post('/login', userController.login, (req, res) => {
 router.get('/getDB', userController.getDB, (req, res) => {
   return res.status(200).json(res.locals.userDB);
 });
+
+router.post('/favorite', userController.favorite, (req, res) => {
+  //console.log(res.locals);
+  return res.status(200).json(res.locals);
+});
+
+router.get('/getFavorites', userController.getFavorites, (req, res) => {
+  return res.status(200).json(res.locals.favorites);
+});
 // , code pulled from login
 //   async (req, res, next) => {
 //     if (res.locals.isOrg) { return shelterController.login(req, res, next); }

@@ -62,6 +62,62 @@ userController.signup = (req, res, next) => {
     });
 };
 
+userController.favorite = (req, res, next) => {
+  //console.log('inside of signup middleware: ');
+  const { username, favorite } = req.body;
+  //console.log('REQ BODY: ',req.body);
+  //console.log('in usercontroller signup');
+  console.log(favorite);
+  Account.findOneAndUpdate(
+    { username: username },
+    {
+      $push: {
+        favorites: favorite,
+      },
+    }
+  )
+    .then((user) => {
+      res.locals.favorites = user.favorites;
+      console.log('favorite added', user);
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: err,
+        status: 500,
+        message: {
+          err: 'An error occurred while trying to add to favorites in usercontroller',
+        },
+      });
+    });
+};
+
+userController.getFavorites = (req, res, next) => {
+  const { username } = req.body;
+  //console.log('in usercontroller login');
+  Account.findOne({ username: username })
+    .then((user) => {
+      res.locals.favorites = user.favorites;
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: 'In userController: ' + err,
+        status: 500,
+        message: {
+          err: 'An error occurred while trying to locate favorites of user',
+        },
+      });
+    });
+};
+
+userController.getDB = (req, res, next) => {
+  Account.find({}).then((data) => {
+    res.locals.userDB = data;
+    return next();
+  });
+};
+
 userController.delete = async (req, res, next) => {
   //console.log('in user delete');
   try {
