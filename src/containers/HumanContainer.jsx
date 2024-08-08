@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ShelterCard from '../components/ShelterCard';
+// import SideBar from '../components/SideBar';
 
 function HumanContainer() {
   // shelter data state management
@@ -34,7 +35,12 @@ function HumanContainer() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className='main-human-container'>
+    <div>
+      {/* <div className ='sidebar' >
+      <SideBar />
+      </div> */}
+      <div className='main-human-container'>
+  
       {shelterData.map((shelter, index) => {
         // maps the shelter data into corresponding key value pairs
         const keys = Object.keys(shelter);
@@ -57,6 +63,7 @@ function HumanContainer() {
           />
         );
       })}
+    </div>
     </div>
   );
 }
