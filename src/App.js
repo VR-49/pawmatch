@@ -8,7 +8,7 @@ import HumanContainer from './containers/HumanContainer';
 import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom";
 import ProfileContainer from './containers/ProfileContainer';
 import ProtectedRoute from './components/ProtectedRoute';
-import './styles/style.scss';
+import './styles/styles.scss';
 import ShelterAnimalCard from './components/ShelterAnimalCard';
 
 

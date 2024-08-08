@@ -20,9 +20,9 @@ userController.login = (req, res, next) => {
         res.locals.isOrg = user[0].isOrg;
         return next();
       } else return next({ 
-        log: 'incorrect username or password',
+        log: 'incorrect password',
         status: 400,
-        message: 'incorrect username or password' });
+        message: 'incorrect password' });
     })
     .catch((err) => {
       return next({ 

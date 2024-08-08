@@ -9,12 +9,13 @@ const LoginContainer = (props) => {
   // const [isOrg, setIsOrg] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loginIssue, setLoginIssue] = useState('');
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    props.setAuth('valid');
+      props.setAuth('valid');
     //console.log(props.auth);
   }, [humanUserData]);
 
@@ -44,9 +45,15 @@ const LoginContainer = (props) => {
             console.log('userresponse', userResponse);
             if (userResponse === 'authorized') {
               console.log('ishuman');
-              setHumanUserData(userResponse.human);
+              setHumanUserData('authorized');
               navigate('/human-dashboard');
             } 
+            else if(userResponse === 'incorrect password'){
+              setLoginIssue(userResponse);
+            }
+            else if(userResponse === 'Account not found'){
+              setLoginIssue(userResponse);
+            }
           }
         })
         .catch((err) => err);
@@ -60,6 +67,7 @@ const LoginContainer = (props) => {
     <div className='login-container'>
       <h1>PawMatch 🐾</h1>
       <h4>Login 🐶🐱</h4>
+      {loginIssue && <p>{loginIssue}</p>}
       <form className='login-form' onSubmit={handleSubmit}>
         <div>
           <label>
