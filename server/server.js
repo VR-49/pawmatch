@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const port = 3000; //or whatever port ure using
 const app = express();
@@ -16,6 +17,7 @@ const profileRouter = require('./routes/profileRoutes.js');
 
 // app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 

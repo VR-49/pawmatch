@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeContainer from './containers/HomeContainer';
 import LoginContainer from './containers/login';
 import CreateAccount from './containers/CreateAccount';
@@ -13,7 +13,9 @@ import ShelterAnimalCard from './components/ShelterAnimalCard';
 
 
 const App = () => {
-
+  useEffect(() => {
+    console.log(document.cookie);
+  });
 
   return (
     <>
