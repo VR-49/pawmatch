@@ -1,40 +1,94 @@
-/**
- * @jest-environment node
- */
+// /**
+//  * @jest-environment node
+//  */
+// const request = require('supertest');
+// const mongoose = require('mongoose');
+// const Account = require('../models/models.js');
+// const app = require('../server');
+// const { login } = require('../controllers/userController');
+// const userRouter = require('../routes/userRouter');
 
+// const { MongoMemoryServer } = require('mongodb-memory-server');
+// // const fs = require('fs');
+// // const path = require('path');
+// const { describe } = require('node:test'); // found one
 
+// describe('setting the stage and managing login tests', () => {
+//   let mongod;
 
-const fs = require('fs');
-const path = require('path');
-const { login } = require('../controllers/userController')
+//   beforeAll(async () => {
+//     mongod = await MongoMemoryServer.create();
+//     const uri = mongod.getUri();
+//     await mongoose.connect(uri);
+//   });
 
-describe('Server-side Login Integration Tests', () => {
-    const testFile = path.resolve(__dirname, '../server/controllers/userController.test.json')
+//   afterAll(async () => {
+//     await mongoose.connection.dropDatabase();
+//     await mongoose.connection.close();
+//     await mongod.stop();
+//   });
 
-    beforeAll(() => {
-        //define code and test data to be tested 
-    });
+//   afterEach(async () => {
+//     const collections = mongoose.connection.collections;
+//     for (const key in collections) {
+//       const collection = collections[key];
+//       await collection.deleteMany(); // Removed the stray 'g'
+//     }
+//   });
 
-    afterAll(() => {
-        //Clean up leftover that needs cleaning eg. cleaning out the db if necessary
-    });
-    it('do the thing eg. process json correctly', () => {
-        // check json
-        //const data = fs.readFileSynd(testJsonFile, 'utf-8');
-        //const parsedData = JSON.parse(data)
+//   describe('Server-side Login Integration Tests', () => {
+//     // const testFile = path.resolve(__dirname, '../server/controllers/userController.test.json')
 
-        //const result = login(parsedData);
+//     beforeAll(async () => {
+//       //define code and test data to be tested
+//       const testUser = new Account({
+//         username: 'testuser',
+//         password: 'pw123',
+//       });
+//       await testUser.save();
+//     });
 
-        //expect(result).toBe(blasdksalkdjflkjasd;fljsas;dlj);
+//     // afterAll(() => {
+//     //     //Clean up leftover that needs cleaning eg. cleaning out the db if necessary
+//     // });
+//     it('should handle login requests by checking the username and password correctly', () => {
+//       return request(app)
+//         .post('/api/auth/login')
+//         .send({ username: 'testuser', password: 'pw123' })
+//         .then((response) => {
+//           console.log(response.body);
+//           expect(response.status).toBe(200);
+//           expect(response.body).toHaveProperty('username', 'testuser');
+//         })
+//         .catch((err) => {
+//             console.error('Test failed: ', err);
+//             throw err;
+//         });
+//     });
 
+//     it('should handle errors correctly', () => {
+//       return request(app)
+//         .post('/api/auth/login')
+//         .send({ username: 'wronguser', password: 'incorrectpw' })
+//         .then((response) => {
+//           expect(response.status).toBe(500);
+//           expect(response.body).toHaveProperty(
+//             'message',
+//             'incorrect username or password'
+//           );
+//         });
+//     });
 
-    }
+//     // it('do the thing eg. process json correctly', () => {
+//     //   // check json
+//     //   const data = fs.readFileSync(testJsonFile, 'utf-8');
+//     //   const parsedData = JSON.parse(data);
 
-    //test other functionality with more its
-    
+//     //   const result = login(parsedData);
 
+//     //   expect(result).toBeDefined();
+//     // });
 
-}
-
-
-
+//     // test other functionality with more 'its'
+//   });
+// });
