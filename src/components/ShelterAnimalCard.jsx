@@ -176,3 +176,5 @@ const ShelterAnimalCard = () => {
     </div>
   );
 };
+
+export default ShelterAnimalCard;
