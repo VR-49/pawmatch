@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { redirect, useNavigate } from 'react-router-dom';
-import '../styles/style.css';
+import '../styles/styles.css';
 import OrgPreferences from './OrgPreferences';
 import HumanPreferences from './HumanPreferences';
 
