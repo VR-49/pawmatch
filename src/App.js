@@ -6,7 +6,7 @@ import ShelterContainer from './containers/ShelterContainer';
 import NavBar from './components/NavBar';
 import HumanContainer from './containers/HumanContainer';
 import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom";
-// import ProfileContainer from './containers/ProfileContainer';
+import ProfileContainer from './containers/ProfileContainer';
 
 import './styles/styles.scss';
 import ShelterAnimalCard from './components/ShelterAnimalCard';
