@@ -4,6 +4,7 @@ const ProfileForm = ({ profile, handleChange, handlePhotoChange, handleSubmit })
   return (
     <form onSubmit={handleSubmit}>
       <label>
+        First name:
         <input 
           type="text"
           name="firstName"
@@ -12,14 +13,16 @@ const ProfileForm = ({ profile, handleChange, handlePhotoChange, handleSubmit })
         />
       </label>
       <label>
+        Last name:
         <input 
           type="text"
           name="lastName"
-          value={profile.LastName}
+          value={profile.lastName}
           onChange={handleChange} 
         />
       </label>
       <label>
+        Location:
         <input 
           type="text"
           name="location"
@@ -28,10 +31,11 @@ const ProfileForm = ({ profile, handleChange, handlePhotoChange, handleSubmit })
         />
       </label>
       <label>
+        Bio:
         <input 
           type="text"
-          name="firstName"
-          value={profile.firstName}
+          name="bio"
+          value={profile.bio}
           onChange={handleChange} 
         />
       </label>

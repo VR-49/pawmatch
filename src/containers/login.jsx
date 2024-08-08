@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HumanContainer from './HumanContainer';
 
-const LoginContainer = (props) => {
+const LoginContainer = ({ setAppUsername }) => {
   const [humanUserData, setHumanUserData] = useState(null);
   //const [orgUserData, setOrgUserData] = useState(null);
   // const [isHuman, setIsHuman] = useState(false);
@@ -44,6 +44,7 @@ const LoginContainer = (props) => {
           if (userResponse) {
             console.log('userresponse', userResponse);
             if (userResponse === 'authorized') {
+              setAppUsername(userResponse.username);
               console.log('ishuman');
               setHumanUserData('authorized');
               navigate('/human-dashboard');
