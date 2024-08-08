@@ -74,8 +74,8 @@ font-style: normal;
 .main-human-container {
 display: grid;
 grid-template-columns: 1fr 1fr;
-grid-template-rows: auto;
-gap: 20px;
+grid-template-rows: 150px 150px 150px;
+gap: 50px;
 width: 75%;
 margin: auto;
 }
@@ -87,6 +87,10 @@ justify-content: center;
 align-items: center;
 border: 1px solid black;
 animation: fadeInFromTop 1s forwards;
+
+background-color: $login-background-color;
+
+cursor: pointer;
 }
 
 .shelter-animal-card-container {
