@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProfileForm from '../components/ProfileForm';
 
 const ProfileContainer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { username } = location.state || {};
+
+  useEffect(() => {
+    if (!username) {
+      navigate('/login');
+    }
+  }, [username, navigate]);
+
   const [profile, setProfile] = useState({
     firstName: '',
     lastName: '',
@@ -11,13 +22,15 @@ const ProfileContainer = () => {
   });
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const response = await fetch('api/profile');
-      const data = await response.json();
-      setProfile(data);
-    };
-    fetchProfile();
-  }, []);
+    if (username) {
+      const fetchProfile = async () => {
+        const response = await fetch(`/api/profile/profile?username=${username}`);
+        const data = await response.json();
+        setProfile(data);
+      };
+      fetchProfile();
+    }
+  }, [username]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +58,7 @@ const ProfileContainer = () => {
     formData.append('photo', profile.photo);
 
 
-    const response = await fetch('/api/profile', {
+    const response = await fetch(`/api/profile/profile?username=${username}`, {
       method: 'PUT',
       body: formData,
     });
@@ -56,6 +69,10 @@ const ProfileContainer = () => {
       console.log('Failed to update profile')
     }
   };
+
+if (!username) {
+  return <div>Loading...</div>;
+}
 
   return (
     <div>

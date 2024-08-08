@@ -14,7 +14,12 @@ const accountSchema = new Schema ({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     email: {type: String, required: true},
-    isOrg: {type: Boolean, required: true}
+    isOrg: {type: Boolean, required: true},
+    firstName: { type: String, default: '' },
+    lastName: { type: String, default: '' },
+    location: { type: String, default: '' },
+    bio: { type: String, default: '' },
+    photo: { type: String, default: '' }
 })
 
 const humanSchema = new Schema({

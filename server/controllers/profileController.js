@@ -1,31 +1,53 @@
-const { error } = require('console');
-const User = require('../models/models');
+const { Account } = require('../models/models');
 
 const profileController = {};
 
-profileController.getProfile = async (req, res) => {
+profileController.getProfile = async (req, res, next) => {
   try {
-    const userId = req.userId;
-    const user = await User.findById(userId);
+    const { username } = req.query;
+    const user = await Account.findOne({ username });
+    if (!user) {
+      return next({ 
+        log: 'User not found in getProfile',
+        status: 404,
+        message: { err: 'User not found' } 
+      });
+    }
     res.json(user);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch profile data' });
+    next({ 
+      log: 'Error in getProfile', 
+      status: 500, 
+      message: { err: 'Failed to fetch profile data' }
+    });
   }
 };
 
-profileController.updateProfile = async (req, res) => {
+profileController.updateProfile = async (req, res, next) => {
   try {
-    const userId = req.userId;
+    const { username } = req.query;
     const { firstName, lastName, location, bio } = req.body;
     const photo = req.file ? req.file.filename : null;
 
     const updateData = { firstName, lastName, location, bio };
     if (photo) updateData.photo = photo;
 
-    const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
+    const user = await Account.findOneAndUpdate({ username }, updateData, { new: true });
+
+    if (!user) {
+      return next({ 
+        log: 'User not found in updateProfile',
+        status: 404,
+        message: { err: 'User not found' } 
+      });
+    }
     res.json(user);
-  }  catch (err) {
-    res.status(500).json({ error: 'Failed to update profile data' });
+  } catch (err) {
+    next({ 
+      log: 'Error in updateProfile', 
+      status: 500, 
+      message: { err: 'Failed to update profile data' }
+    });
   }
 };
 
