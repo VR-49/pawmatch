@@ -17,6 +17,7 @@ const accountSchema = new Schema({
   password: { type: String, required: true },
   email: { type: String, required: true },
   isOrg: { type: Boolean, required: true },
+  favorites: [Object],
 });
 
 const humanSchema = new Schema({

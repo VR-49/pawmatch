@@ -28,7 +28,7 @@ app.use('/api/auth', userRouter); // make user after chatting with TIM
 // app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
 app.use('/api/pet', shelterRouter);
-//app.use('/api', apiRoutes);
+// app.use('/api', apiRoutes);
 
 /**
  * 404 handler
