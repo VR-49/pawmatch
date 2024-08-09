@@ -1,58 +1,71 @@
 import React, { useState, useEffect } from 'react';
-// import HumanCard from '../components/HumanCard'; //assume if we gonna have one
 import ShelterCard from '../components/ShelterCard';
+// import SideBar from '../components/SideBar';
 
 function HumanContainer() {
-    const [shelterData, setShelterData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+  // shelter data state management
+  const [shelterData, setShelterData] = useState([]);
 
-    useEffect(() => {
-        const fetchHumanData = async () => {
-            try {
-                const response = await fetch('/api/shelter');
-                const data = await response.json();
-                setShelterData(data);
-                setLoading(false);
-            } catch (err) {
-                setError('Failed to fetch data');
-                setLoading(false);
-                console.error(err);
-            }
-        };
+  // loading & error state management
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-        fetchHumanData();
-    }, []);
-    console.log(shelterData);
-    const handleAddHuman = () => {
-        console.log("Add human button clicked");
+  // fetches shelter data from database and
+  // setting the state of shelterData to the fetched data
+  useEffect(() => {
+    const fetchHumanData = async () => {
+      try {
+        const response = await fetch('/api/shelter');
+        const data = await response.json();
+        setShelterData(data);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch data');
+        setLoading(false);
+        console.error(err);
+      }
     };
+    fetchHumanData();
+  }, []);
 
-    if (loading) return <p>Loading human data...</p>;
-    if (error) return <p>Error: {error}</p>;
+  console.log('shelterData: ', shelterData);
 
-    return (
-        <div className="main-human-container">
-            {shelterData.map((obj, index) => {
-              const keys = Object.keys(obj);
-              const id = obj[keys[0]];
-              const username = obj[keys[1]];
-              const location = obj[keys[2]];
-              const orgName = obj[keys[3]];
-              const bio = obj[keys[4]];
-              const pets = obj[keys[5]];
+  // loading & error display logic
+  if (loading) return <p>Loading human data...</p>;
+  if (error) return <p>Error: {error}</p>;
 
-              return <ShelterCard key={index} id={id} username={username} location={location} orgName={orgName} bio={bio} pets={pets}/>
-            })}
-            {/* {shelterData.length ? (
-                shelterData.map(shelter => (
-                    <HumanCard key={human.id} human={human} />
-                ))
-            ) : (
-                <p>No humans found.</p>
-            )} */}
-        </div>
-    );
+  return (
+    <div>
+      {/* <div className ='sidebar' >
+      <SideBar />
+      </div> */}
+      <div className='main-human-container'>
+  
+      {shelterData.map((shelter, index) => {
+        // maps the shelter data into corresponding key value pairs
+        const keys = Object.keys(shelter);
+        const id = shelter[keys[0]];
+        const username = shelter[keys[1]];
+        const location = shelter[keys[2]];
+        const orgName = shelter[keys[3]];
+        const bio = shelter[keys[4]];
+        const petIds = shelter[keys[5]];
+
+        return (
+          <ShelterCard
+            key={index}
+            id={id}
+            username={username}
+            location={location}
+            orgName={orgName}
+            bio={bio}
+            petIds={petIds}
+          />
+        );
+      })}
+    </div>
+    </div>
+  );
 }
 
 export default HumanContainer;

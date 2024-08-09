@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect } from 'react';
 
 const AnimalCard = ({ animalId }) => {
   const [animal, setAnimal] = useState(null);
@@ -43,11 +42,13 @@ const AnimalCard = ({ animalId }) => {
         alt={`A ${animal.species || 'animal'}`}
         style={{ width: '100px', height: '100px' }}
       />
+      <div class='animalDescription' >
       <h3>{animal.name || 'Unnamed'}</h3>
       <p>Species: {animal.species || 'Unknown'}</p>
       <p>Breed: {animal.breed || 'Unknown'}</p>
       <p>Age: {animal.age || 'Unknown'}</p>
       <p>{animal.description || 'No description available.'}</p>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const path = require('path')
-const port = 3000; //or whatever port ure using
+const cookieParser = require('cookie-parser');
+const path = require('path');
+// const port = 3000; //or whatever port ure using
 const app = express();
 
 const PORT = 3000;
@@ -12,37 +13,48 @@ const humanRouter = require('./routes/humanRouter.js');
 const shelterRouter = require('./routes/shelterRouter.js');
 const petRouter = require('./routes/petRouter.js');
 const apiRoutes = require('./routes/apiRoutes.js');
+const profileRouter = require('./routes/profileRoutes.js');
 
 // app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 //serve route to images
-app.use('/api/images', express.static(path.resolve(__dirname, './models/images')))
+app.use(
+  '/api/images',
+  express.static(path.resolve(__dirname, './models/images'))
+);
 
-
-
-app.use('/api/auth', userRouter);
-app.use('/api/human', humanRouter);
+app.use('/api/auth', userRouter); // make user after chatting with TIM
+// app.use('/api/human', humanRouter);
 app.use('/api/shelter', shelterRouter);
-app.use('/api/pet', petRouter)
-app.use('/api', apiRoutes);
+app.use('/api/pet', shelterRouter);
+app.use('/api/profile', profileRouter); // routes for the profile page
+//app.use('/api', apiRoutes);
 
 /**
  * 404 handler
  */
-app.use('/', (req, res) => {
+app.use((req, res) => {
   res.status(404).send('URL Not Found');
 });
 
-    
-    /**
-     * Global error handler
-     */
+/**
+ * Global error handler
+ */
+
+const defaultErr = {
+  log: 'Express error handler caught unknown middleware error',
+  status: 500,
+  message: { err: 'An error occurred' },
+};
+
 app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).send({ error: err });
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  res.status(errorObj.status).json(errorObj.message);
 });
 
 app.listen(PORT, () => {
