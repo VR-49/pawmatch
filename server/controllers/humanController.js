@@ -1,15 +1,15 @@
 const fs = require('fs/promises');
 const fsCallback = require('fs');
 const path = require('path');
-const { Account, Pet, Human, Shelter } = require('../models/models.js');
+const { User, Pet } = require('../models/models.js');
 const apiController = require('./apiController');
 
 const humanController = {};
 
 humanController.getDB = (req, res, next) => {
-  Human.find({})
+  User.find({})
     .then((found) => {
-      res.locals.humanDB = found;
+      res.locals.users = found;
       next();
     })
     .catch((error) => {
@@ -26,7 +26,7 @@ humanController.signup = (req, res, next) => {
   const { username, location, firstName, lastName, bio, picture } = req.body;
   console.log('in humancontroller signup');
 
-  Human.create({
+  User.create({
     username,
     location,
     firstName,
@@ -55,8 +55,8 @@ humanController.login = async (req, res, next) => {
     //   if(err)return next (err);
     //   const {lat, lng} = req.geolocation;
 
-    const human = await Human.findOne({ username });
-    if (!human) {
+    const user = await User.findOne({ username });
+    if (!user) {
       return res.status(400).json({
         error: 'human not found',
       });
@@ -64,7 +64,7 @@ humanController.login = async (req, res, next) => {
     // human.location = `Lat : ${lat}, Lng: ${lng}`;
     // await human.save();
 
-    res.locals.user = human;
+    res.locals.user = user;
     return next();
   } catch (err) {
     return next({
@@ -94,7 +94,7 @@ humanController.delete = async (req, res, next) => {
   console.log('in human delete');
   try {
     const { username } = req.params;
-    const user = await Human.findOne({ username });
+    const user = await User.findOne({ username });
     const starredPets = user.starredPets;
 
     for (let i = 0; i < starredPets.length; i++) {
@@ -108,7 +108,7 @@ humanController.delete = async (req, res, next) => {
     //   {$pull: {flagUsers: user._id}}
     console.log('afterr find pet and delete');
     // );
-    await Human.deleteOne({ username });
+    await User.deleteOne({ username });
 
     return next();
   } catch (error) {

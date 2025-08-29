@@ -1,15 +1,13 @@
 const fs = require('fs/promises');
 const fsCallback = require('fs');
 const path = require('path');
-const { Account, Pet, Human, Shelter } = require('../models/models.js');
+const { Pet, Shelter } = require('../models/models.js');
 
-
-
-const shelterController = {}
+const shelterController = {};
 
 shelterController.getShelters = (req, res, next) => {
   Shelter.find({})
-    .then(shelter => {
+    .then((shelter) => {
       res.locals.shelter = shelter;
       return next();
     })
@@ -17,26 +15,26 @@ shelterController.getShelters = (req, res, next) => {
       const err = {
         log: 'shelterController.getShelters grab data issue: ' + error,
         status: 500,
-        message: { err: 'DB grab data error' }
+        message: { err: 'DB grab data error' },
       };
       next(err);
     });
-}
+};
 
 shelterController.getPetDB = (req, res, next) => {
   Pet.find({})
-  .then((found) => {
-    res.locals.petDB = found;
-    next();
-  })
-  .catch(error => {
-    const err = {
-      log: 'petController.getDB grab data issue: ' + error,
-      status: 500,
-      message: { err: 'DB grab data error' }
-    };
-    next(err);
-  })
+    .then((found) => {
+      res.locals.petDB = found;
+      next();
+    })
+    .catch((error) => {
+      const err = {
+        log: 'petController.getDB grab data issue: ' + error,
+        status: 500,
+        message: { err: 'DB grab data error' },
+      };
+      next(err);
+    });
 };
 
 shelterController.load = async (req, res, next) => {
@@ -47,11 +45,10 @@ shelterController.load = async (req, res, next) => {
     console.log(pet);
     res.locals.pet = pet;
     return next();
+  } catch (err) {
+    return next({ log: "error in petload: couldn't find pet" });
   }
-  catch(err){
-    return next({log: "error in petload: couldn't find pet"})
-  }
-}
+};
 shelterController.addShelter = (req, res, next) => {
   //files are in req.file NOT body
   // console.log('file', req.file)
@@ -59,29 +56,28 @@ shelterController.addShelter = (req, res, next) => {
   //console.log('in sheltercontroller signup');
 
   //in order to pull up images take the image name and find in images
-  Shelter.create({username, location, orgName, bio, pet_Ids: []})
-  .then((shelter) => {
-    res.locals.shelterDB = shelter;
-    console.log(shelter);
-    return next();
-  })
-  .catch(error => {
-    const err = {
-      log: 'shelterController.addShelters invalid data issue: ' + error,
-      status: 400,
-      message: { err: 'Invalid Response' }
-    };
-  })
+  Shelter.create({ username, location, orgName, bio, pet_Ids: [] })
+    .then((shelter) => {
+      res.locals.shelterDB = shelter;
+      console.log(shelter);
+      return next();
+    })
+    .catch((error) => {
+      const err = {
+        log: 'shelterController.addShelters invalid data issue: ' + error,
+        status: 400,
+        message: { err: 'Invalid Response' },
+      };
+    });
 };
-  
+
 // shelterController.login = async (req, res, next) => {
 //   console.log('in sheltercontroller login');
 //   try {
-//     const username = res.locals.username; 
+//     const username = res.locals.username;
 //     console.log('shelter username', username);
 //     const shelter = await Shelter.findOne({username});
 
-    
 //     res.locals.shelter = shelter;
 //     return next();
 //   } catch(err){
@@ -104,7 +100,6 @@ shelterController.addShelter = (req, res, next) => {
 //   await Pet.deleteOne({ _id: petId });
 // }
 
-
 // shelterController.delete = async (req, res, next) => {
 //   console.log('in sheltercontroller delete');
 
@@ -119,7 +114,7 @@ shelterController.addShelter = (req, res, next) => {
 
 //     await Shelter.deleteOne({username});
 //     return next();
-//   } 
+//   }
 //   catch(error){
 //     return next({
 //       log: 'shelterController.delete error',
@@ -128,4 +123,4 @@ shelterController.addShelter = (req, res, next) => {
 //   }
 // }
 
-module.exports = shelterController; 
+module.exports = shelterController;

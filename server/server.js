@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-import dotenv from 'dotenv';
-import { connect } from './models/models.js';
+const dotenv = require('dotenv');
+const connect = require('./models/models.js');
 dotenv.config();
 const app = express();
 

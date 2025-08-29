@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-export const connect = async () => {
+const connect = async () => {
   try {
     const uri = process.env.MONGO_URI;
     if (!uri) {
@@ -17,36 +17,19 @@ export const connect = async () => {
 
 const Schema = mongoose.Schema;
 
-const accountSchema = new Schema({
+const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   email: { type: String, required: true },
-  isOrg: { type: Boolean, required: true },
-  favorites: [Object],
-  firstName: { type: String, default: '' },
-  lastName: { type: String, default: '' },
-  location: { type: String, default: '' },
-  bio: { type: String, default: '' },
-  photo: { type: String, default: '' },
-});
-
-const humanSchema = new Schema({
-  username: String,
-  location: String,
+  isOrg: { type: Boolean, required: true }, // true = shelter, false = human
   firstName: String,
   lastName: String,
-  starredPets: Object,
-  bio: String,
-  picture: String,
-});
-
-const shelterSchema = new Schema({
-  username: String,
+  orgName: String, // only for shelters
   location: String,
-  orgName: String,
   bio: String,
-  pet_Ids: Object,
   picture: String,
+  favorites: [Object], // optional
+  pet_Ids: [Object], // only for shelters
 });
 
 const petSchema = new Schema({
@@ -65,14 +48,26 @@ const petSchema = new Schema({
   flagUsers: Object,
 });
 
-const Account = mongoose.model('account', accountSchema);
-const Human = mongoose.model('human', humanSchema);
-const Shelter = mongoose.model('shelter', shelterSchema);
+const shelterSchema = new Schema(
+  {
+    name: { type: String, required: true }, // Shelter name
+    location: { type: String, required: true }, // e.g., city, address, or zip
+    petIds: [{ type: Schema.Types.ObjectId, ref: 'Pet' }], // Pets belonging to this shelter
+    adminIds: [{ type: Schema.Types.ObjectId, ref: 'User' }], // Users who can manage this shelter
+    bio: { type: String, default: '' }, // Optional description about the shelter
+    picture: { type: String, default: '' }, // Optional logo or image
+  },
+  { timestamps: true }
+); // Automatically adds createdAt and updatedAt
+
+const User = mongoose.model('user', userSchema);
 const Pet = mongoose.model('pet', petSchema);
+const Shelter = mongoose.model('shelter', shelterSchema);
 
 module.exports = {
-  Account,
+  User,
   Pet,
-  Human,
   Shelter,
 };
+
+module.exports = connect;

@@ -1,7 +1,7 @@
 const fs = require('fs/promises');
 const fsCallback = require('fs');
 const path = require('path');
-const { Account, Pet, Human, Shelter } = require('../models/models.js');
+const { User } = require('../models/models.js');
 const { error } = require('console');
 
 const userController = {};
@@ -9,35 +9,38 @@ const userController = {};
 userController.login = (req, res, next) => {
   const { username, password } = req.body;
   //console.log('in usercontroller login');
-  Account.find({ username })
+  User.find({ username })
     .then((user) => {
       // console.log('found user', user[0]);
       // console.log(password, user[0].password);
       if (password === user[0].password) {
         console.log('corect password');
-        res.locals.account = user;
+        res.locals.user = user;
         res.locals.username = username;
         res.locals.isOrg = user[0].isOrg;
         const result = {
           username: username,
-          state: 'authorized'
+          state: 'authorized',
         };
         res.locals.result = result;
         return next();
-      } else return next({ 
-        log: 'incorrect password',
-        status: 400,
-        message: 'incorrect password' });
+      } else
+        return next({
+          log: 'incorrect password',
+          status: 400,
+          message: 'incorrect password',
+        });
     })
     .catch((err) => {
-      return next({ 
-        log: 'Account not found',
-        message: 'Account not found' });
+      return next({
+        log: 'User not found',
+        message: 'User not found',
+      });
     });
 };
 
 userController.getDB = (req, res, next) => {
-  Account.find({}).then((data) => {
+  User.find({}).then((data) => {
     res.locals.userDB = data;
     return next();
   });
@@ -48,7 +51,7 @@ userController.signup = (req, res, next) => {
   const { username, password, email, isOrg } = req.body;
   //console.log('REQ BODY: ',req.body);
   //console.log('in usercontroller signup');
-  Account.create({ username, password, email, isOrg })
+  User.create({ username, password, email, isOrg })
     .then((user) => {
       res.locals.user = user.username;
       console.log('user is', user);
@@ -76,7 +79,7 @@ userController.delete = async (req, res, next) => {
   //console.log('in user delete');
   try {
     const { username } = req.params;
-    //const user = await Account.findOne({username})
+    //const user = await User.findOne({username})
     //const starredPets = user.starredPets;
 
     // for(let i = 0; i < starredPets.length; i++) {
@@ -87,7 +90,7 @@ userController.delete = async (req, res, next) => {
     //   {$pull: {flagUsers: user._id}}
     // console.log('afterr find pet and delete')
     // );
-    await Account.deleteOne({ username })
+    await User.deleteOne({ username })
       .then((user) => {
         res.locals.deleteMsg = user;
         //console.log(user.deletedCount);
@@ -109,7 +112,7 @@ userController.delete = async (req, res, next) => {
 };
 
 userController.getDB = (req, res, next) => {
-  Account.find({}).then((data) => {
+  User.find({}).then((data) => {
     res.locals.userDB = data;
     return next();
   });
@@ -121,7 +124,7 @@ userController.favorite = (req, res, next) => {
   //console.log('REQ BODY: ',req.body);
   //console.log('in usercontroller signup');
   console.log(favorite);
-  Account.findOneAndUpdate(
+  User.findOneAndUpdate(
     { username: username },
     {
       $push: {
@@ -148,7 +151,7 @@ userController.favorite = (req, res, next) => {
 userController.getFavorites = (req, res, next) => {
   const { username } = req.body;
   //console.log('in usercontroller login');
-  Account.findOne({ username: username })
+  User.findOne({ username: username })
     .then((user) => {
       res.locals.favorites = user.favorites;
       return next();
@@ -168,7 +171,7 @@ userController.deleteFavorite = (req, res, next) => {
   const { username, _id } = req.body;
   console.log('req.body: ', req.body);
 
-  Account.findOne({ username: username })
+  User.findOne({ username: username })
     .then((user) => {
       user.favorites = user.favorites.filter(
         (fav) => fav.pet._id.toString() !== _id.toString()
