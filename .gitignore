@@ -1,4 +1,32 @@
+#node modules
 node_modules
+
+# OS-generated files
 .DS_Store
+
+# API keys or secrets
 apikeys.js
+
+# Build output
 dist
+
+#env files
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Coverage reports
+coverage
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.swp

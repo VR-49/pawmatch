@@ -3,10 +3,12 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-// const port = 3000; //or whatever port ure using
+import dotenv from 'dotenv';
+import { connect } from './models/models.js';
+dotenv.config();
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const userRouter = require('./routes/userRouter.js');
 const humanRouter = require('./routes/humanRouter.js');
@@ -57,6 +59,17 @@ app.use((err, req, res, next) => {
   res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+const startItUp = async () => {
+  try {
+    await connect();
+    console.log('Successfully connected to the DB!');
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('There has been an error starting the server... ', error);
+    process.exit(1);
+  }
+};
+
+startItUp();

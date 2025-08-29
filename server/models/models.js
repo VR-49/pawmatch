@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 
-const MONGO_URI =
-  'mongodb+srv://dylankinsella7:zvDozndWFa1QKaZ4@cluster0.synwgk7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+export const connect = async () => {
+  try {
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+      console.error('missing vairable while connecting to db');
+      return;
+    }
 
-mongoose
-  .connect(MONGO_URI, {
-    dbName: 'pawmatch',
-  })
-  .then(() => console.log('Connected to Mongo'))
-  .catch((err) => console.log(err));
+    await mongoose.connect(uri);
+  } catch (error) {
+    console.error('Error connecting to the db: ', error);
+    process.exit(1);
+  }
+};
 
 const Schema = mongoose.Schema;
 
@@ -22,7 +27,7 @@ const accountSchema = new Schema({
   lastName: { type: String, default: '' },
   location: { type: String, default: '' },
   bio: { type: String, default: '' },
-  photo: { type: String, default: '' }
+  photo: { type: String, default: '' },
 });
 
 const humanSchema = new Schema({
